@@ -1,0 +1,45 @@
+---
+name: "(Manual) Create new tag and release"
+
+on: workflow_dispatch
+
+jobs:
+  cmakelists-version:
+    uses: jgsogo/template-cpp-project/.github/workflows/_parse_version.yml@master
+    with:
+      github_sha: master
+
+  release-available:
+    needs:
+      cmakelists-version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git fetch --tags
+          git tag | tail -1
+          LATEST_TAG=$(git tag | tail -1)
+          if [ "${LATEST_TAG}" = "v${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}" ] ; then
+            echo "Release ${LATEST_TAG} already exists!"
+            exit 1
+          fi
+
+  ci:
+    uses: jgsogo/template-cpp-project/.github/workflows/_build.yml@master
+    needs: release-available  # Only run tests if version is available
+    with:
+      library_name: ${{ github.event.repository.name }}
+      github_sha: master
+
+  create_release:
+    needs:
+      - ci
+      - release-available
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@4edd7a5aabb1bc62e6dc99b3302d587bf3134e20"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: true
+          automatic_release_tag: "v${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}"
+

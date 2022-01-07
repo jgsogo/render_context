@@ -1,0 +1,17 @@
+---
+name: "On published Release"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  new_release:
+    uses: jgsogo/conan-recipes/.github/workflows/_published_release.yml@master
+    with:
+      github_sha: ${{ github.ref_name }}
+      library_name: ${{ github.event.repository.name }}
+      repository: ${{ github.repository }}
+    secrets:
+      APP_RECIPES_APP_ID: ${{ secrets.APP_RECIPES_APP_ID }}
+      APP_RECIPES_PRIVATE_KEY: ${{ secrets.APP_RECIPES_PRIVATE_KEY }}

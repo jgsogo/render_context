@@ -1,0 +1,17 @@
+---
+name: Test Conan recipe
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test_recipe:
+    uses: jgsogo/conan-recipes/.github/workflows/_test_recipe.yml@master
+    with:
+      github_sha: ${{ github.sha }}
+      library_name: ${{ github.event.repository.name }}
+      repository: ${{ github.repository }}

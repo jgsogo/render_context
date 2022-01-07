@@ -1,0 +1,19 @@
+{
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "requires": [
+     "1"
+    ],
+    "path": "conanfile.txt",
+    "context": "host"
+   },
+   "1": {
+    "ref": "catch2/2.13.7#31c8cd08e3c957a9eac8cb1377cf5863",
+    "context": "host"
+   }
+  },
+  "revisions_enabled": true
+ },
+ "version": "0.4"
+}
