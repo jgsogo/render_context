@@ -1,5 +1,5 @@
 [requires]
-imgui/cci.20211127+docking
+imgui/cci.20211117+docking
 magnum/2020.06
 # magnum-plugins/2020.06
 magnum-integration/2020.06
