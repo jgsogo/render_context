@@ -29,7 +29,42 @@ namespace math::xy::types {
                 return Magnum::Math::Vector2<Target<T>>{_transformation.transformPoint(translatetyped)};
             }
 
+            /* Functions to set/update transformation */
+            void set(const Translation &translate) {
+                this->_set(translate);
+                this->_update();
+            }
+
+            void set(const Rotation &rotation) {
+                this->_set(rotation);
+                this->_update();
+            }
+
+            template<typename Arg1, typename... Args>
+            void set(const Arg1 &t, const Args &... args) {
+                this->_set(t, args...);
+                this->_update();
+            };
+
         protected:
+            virtual void _update() = 0;
+
+            virtual void _set(const Scale &) {};
+
+            void _set(const Translation &translate) {
+                _translation = translate;
+            }
+
+            void _set(const Rotation &rotation) {
+                _rotation = rotation;
+            }
+
+            template<typename Arg1, typename... Args>
+            void _set(const Arg1 &t, const Args &... args) {
+                this->_set(t);
+                this->_set(args...);
+            };
+
             void update(const Translation &translate,
                         const Rotation &rotate,
                         const Scale &scale) {  // Always preserve x/y ratio
@@ -59,6 +94,7 @@ namespace math::xy::types {
             typename T, typename Enable = void>
     class Transformation : public _impl::BaseTransformation<Origin, Target, T> {
     public:
+        using _impl::BaseTransformation<Origin, Target, T>::set;
         using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
         using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
         using Scale = typename _impl::BaseTransformation<Origin, Target, T>::Scale;
@@ -78,6 +114,19 @@ namespace math::xy::types {
             return os;
         }
 
+        void set(const Scale &scale) {
+            this->_set(scale);
+            this->_update();
+        }
+
+    protected:
+        void _set(const Scale &scale) override {
+            _scale = scale;
+        }
+
+        void _update() override {
+            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
+        }
         /*
         // Set translation, it is expressed in target coordinates
         void setTranslate(const Magnum::Math::Vector2<Target<T>> &translate) {
@@ -123,6 +172,10 @@ namespace math::xy::types {
             return os;
         }
 
+    protected:
+        void _update() override {
+            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation);
+        }
     };
 
 }
