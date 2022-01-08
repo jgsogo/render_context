@@ -18,7 +18,7 @@ namespace math::xy::types {
         public:
             using Translation = Magnum::Math::Vector2<Target<T>>;
             using Rotation = Magnum::Math::Deg<T>;
-            using Scale = ::math::types::RatioT<Origin, Target, T>;
+            using Scale = typename std::conditional<!std::is_same_v<Origin<T>, Target<T>>, ::math::types::RatioT<Origin, Target, T>, Magnum::NoInitT>::type;
 
             BaseTransformation() = default;
 
