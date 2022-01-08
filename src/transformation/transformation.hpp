@@ -127,25 +127,7 @@ namespace math::xy::types {
         void _update() override {
             this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
         }
-        /*
-        // Set translation, it is expressed in target coordinates
-        void setTranslate(const Magnum::Math::Vector2<Target<T>> &translate) {
-            transformation.setTranslate(Magnum::Vector2{translate});
-        }
 
-        void setScale(Origin<T> oriMagnitude, Target<T> targetMagnitude) {
-            auto ratio = targetMagnitude / oriMagnitude;
-            this->setScale(ratio);
-        }
-
-        void setScale(const Ratio <Origin, Target> &ratio) {
-            transformation.setScale((float) ratio);
-        }
-
-        void setRotate(const Magnum::Deg &angle) {
-            transformation.setRotate(angle);
-        }
-        */
     protected:
         Scale _scale = Scale{Magnum::Math::IdentityInit};
     };
