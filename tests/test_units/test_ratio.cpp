@@ -44,3 +44,10 @@ TEST_CASE("test_units/test_ratio | Apply ratio", "[units/ratio]") {
     }
 }
 
+TEST_CASE("test_units/test_ratio | Ratio at math scope (implicit units)", "[units/ratio]") {
+    auto ratio = math::ratio(1_px, 10_mm);
+    std::ostringstream os;
+    os << ratio;
+    REQUIRE(os.str() == "10 mm/px");
+}
+

@@ -11,6 +11,8 @@ add_executable(unit_tests
         test_units/test_milimeters.cpp
         test_units/test_pixels.cpp
         test_units/test_ratio.cpp
+
+        test_transformation/test_2d_matrix.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2
