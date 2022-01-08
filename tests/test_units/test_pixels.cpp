@@ -1,6 +1,6 @@
 #include <sstream>
 #include "catch2/catch.hpp"
-#include "units/pixels.hpp"
+#include "units/units.hpp"
 
 using namespace math::units;
 

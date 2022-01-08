@@ -10,42 +10,49 @@ namespace math::xy::types {
     /* Simplification of homogeneous coordinate matrices. Here translation is
      * performed after rotation and scaling, thus it is expressed in Target coordinates */
 
-    template<template<typename> typename Units,
-            typename T>
-    class BaseTransformation {
-    public:
-        using Translation = Magnum::Math::Vector2<Units<T>>;
-        using Rotation = Magnum::Math::Deg<T>;
+    namespace _impl {
+        template<template<typename> typename Origin,
+                template<typename> typename Target,
+                typename T>
+        class BaseTransformation {
+        public:
+            using Translation = Magnum::Math::Vector2<Target<T>>;
+            using Rotation = Magnum::Math::Deg<T>;
 
-        BaseTransformation() = default;
+            BaseTransformation() = default;
 
-        BaseTransformation(const Translation &t, const Rotation &r) : _translation(t), _rotation(r) {}
+            BaseTransformation(const Translation &t, const Rotation &r) : _translation(t), _rotation(r) {}
 
-    protected:
-        void update(const Magnum::Math::Vector2<Units<T>> &translate,
-                    const Magnum::Math::Deg<T> &rotate,
-                    const T &scale) {  // Always preserve x/y ratio
-            _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
-                              Magnum::Math::Matrix3<T>::rotation(rotate) *
-                              Magnum::Math::Matrix3<T>::scaling({scale, scale});
-        }
+            Magnum::Math::Vector2<Target<T>> transformPoint(const Magnum::Math::Vector2<Origin<T>> &in) const {
+                return _transformation.transformPoint(in);
+            }
 
-        void update(const Magnum::Math::Vector2<T> &translate,
-                    const Magnum::Math::Deg<T> &rotate) {
-            _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
-                              Magnum::Math::Matrix3<T>::rotation(rotate);
-        }
+        protected:
+            void update(const Magnum::Math::Vector2<Target<T>> &translate,
+                        const Magnum::Math::Deg<T> &rotate,
+                        const T &scale) {  // Always preserve x/y ratio
+                _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
+                                  Magnum::Math::Matrix3<T>::rotation(rotate) *
+                                  Magnum::Math::Matrix3<T>::scaling({scale, scale});
+            }
 
-    protected:
-        Translation _translation;
-        Rotation _rotation;
-        Magnum::Math::Matrix3<T> _transformation;
-    };
+            void update(const Magnum::Math::Vector2<T> &translate,
+                        const Magnum::Math::Deg<T> &rotate) {
+                _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
+                                  Magnum::Math::Matrix3<T>::rotation(rotate);
+            }
+
+        protected:
+            Translation _translation;
+            Rotation _rotation;
+            Magnum::Math::Matrix3<T> _transformation;
+        };
+    }
 
     template<template<typename> typename Origin,
             template<typename> typename Target,
             typename T, typename Enable = void>
-    class Transformation : public BaseTransformation<Target, T> {
+    class Transformation : public _impl::BaseTransformation<Origin, Target, T> {
     public:
         using Translation = Magnum::Math::Vector2<Target<T>>;
         using Scale = ::math::types::RatioT<Origin, Target, T>;
@@ -53,8 +60,9 @@ namespace math::xy::types {
 
         Transformation() = default;
 
-        Transformation(const Translation &t, const Scale &s, const Rotation &r) : BaseTransformation<Target, T>(t, r), _scale(s) {
-            this->update(BaseTransformation<Target, T>::_translation, BaseTransformation<Target, T>::_rotation, _scale);
+        Transformation(const Translation &t, const Scale &s, const Rotation &r)
+                : _impl::BaseTransformation<Origin, Target, T>(t, r), _scale(s) {
+            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
         }
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
@@ -91,15 +99,16 @@ namespace math::xy::types {
     template<template<typename> typename Origin,
             template<typename> typename Target,
             typename T>
-    class Transformation<Origin, Target, T, typename std::enable_if_t<std::is_same_v<Origin<T>, Target<T>>>> : public BaseTransformation<Target, T> {
+    class Transformation<Origin, Target, T, typename std::enable_if_t<std::is_same_v<Origin<T>, Target<T>>>>
+            : public _impl::BaseTransformation<Origin, Target, T> {
     public:
         using Translation = Magnum::Math::Vector2<Target<T>>;
         using Rotation = Magnum::Math::Deg<T>;
 
         Transformation() = default;
 
-        Transformation(const Translation &t, const Rotation &r) : BaseTransformation<Target, T>(t, r) {
-            this->update(BaseTransformation<Target, T>::_translation, BaseTransformation<Target, T>::_rotation);
+        Transformation(const Translation &t, const Rotation &r) : _impl::BaseTransformation<Origin, Target, T>(t, r) {
+            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation);
         }
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {

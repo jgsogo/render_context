@@ -1,8 +1,6 @@
 #include <sstream>
 #include "catch2/catch.hpp"
-#include "units/pixels.hpp"
-#include "units/milimeters.hpp"
-#include "units/ratio.hpp"
+#include "units/units.hpp"
 
 using namespace math::units;
 
@@ -51,3 +49,19 @@ TEST_CASE("test_units/test_ratio | Ratio at math scope (implicit units)", "[unit
     REQUIRE(os.str() == "10 mm/px");
 }
 
+TEST_CASE("test_units/test_ratio | Inverse ratio", "[units/ratio]") {
+    using ForwardRatio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, double>;
+    using BackwardRatio = math::types::RatioT<math::types::MilimetersT, math::types::PixelsT, double>;
+    auto ratio = ForwardRatio{1_px, 10_mm};
+    {
+        std::ostringstream os;
+        os << ratio;
+        REQUIRE(os.str() == "10 mm/px");
+    }
+    {
+        auto inverted = static_cast<BackwardRatio >(ratio);
+        std::ostringstream os;
+        os << inverted;
+        REQUIRE(os.str() == "0.1 px/mm");
+    }
+}

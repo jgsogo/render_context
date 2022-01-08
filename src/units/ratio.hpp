@@ -30,6 +30,10 @@ namespace math {
                 return RatioT<Target, Origin, T>{Target{static_cast<T>(*this)}, Origin{T{1}}};
             }
 
+            explicit operator RatioT<Target, Origin, T>() const {
+                return RatioT<Target, Origin, T>{Target<T>(static_cast<T>(*this)), Origin<T>{1.}};
+            }
+
             friend std::ostream &operator<<(std::ostream &os, const RatioT &mms) {
                 os << static_cast<T>(mms) << " " << Target<T>::symbol << "/" << Origin<T>::symbol;
                 return os;
@@ -55,9 +59,9 @@ namespace math {
     }
 
     template<template<typename> typename Origin,
-            template<typename> typename Target>
-    types::RatioT<Origin, Target, double> ratio(Origin<double> ori, Target<double> tgt) {
-        return types::RatioT<Origin, Target, double>(ori, tgt);
+            template<typename> typename Target, typename T>
+    types::RatioT<Origin, Target, T> ratio(Origin<T> ori, Target<T> tgt) {
+        return types::RatioT<Origin, Target, T>(ori, tgt);
     }
 
 }
