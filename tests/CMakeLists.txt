@@ -8,7 +8,9 @@ enable_testing()
 add_executable(unit_tests
         main.cpp
 
-        # TODO: Add your 'test_xxxx.cpp' files here
+        test_units/test_milimeters.cpp
+        test_units/test_pixels.cpp
+        test_units/test_ratio.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2

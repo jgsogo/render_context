@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
+add_subdirectory(units)
 
-add_library(${PROJECT_NAME} INTERFACE)
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
+add_library(${PROJECT_NAME}
+        context.h
+        context.cpp
+        )
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC units)
