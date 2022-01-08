@@ -29,6 +29,11 @@ namespace math::xy::types {
                 return Magnum::Math::Vector2<Target<T>>{_transformation.transformPoint(translatetyped)};
             }
 
+            /* Transform magnitude taking only scale into account */
+            Target<T> transformMagnitude(const Origin<T>& in) {
+                return Target<T>{static_cast<T>(in) * _transformation.uniformScaling()};
+            }
+
             /* Functions to set/update transformation */
             void set(const Translation &translate) {
                 this->_set(translate);

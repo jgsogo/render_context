@@ -55,6 +55,29 @@ TEST_CASE("test_transformation/test_2d_matrix | Apply transformation without sca
     REQUIRE(tt.y() == 21_mm);
 }
 
+TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (with scale)", "[transformation/2d]") {
+    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, double>;
+    TransformationType::Translation translation{10_px, 20_px};
+    TransformationType::Scale scale = math::ratio(8_mm, 1_px);
+    TransformationType::Rotation rotation{90.0_deg};
+    auto m = TransformationType{translation, scale, rotation};
+
+    auto px = m.transformMagnitude(16_mm);
+    REQUIRE(px == 2_px);
+}
+
+TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (without scale)", "[transformation/2d]") {
+    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, double>;
+    TransformationType::Translation translation{10_mm, 20_mm};
+    TransformationType::Rotation rotation{90.0_deg};
+    auto m = TransformationType{translation, rotation};
+
+    auto px = m.transformMagnitude(16_mm);  // No scale :D
+    REQUIRE(px == 16_mm);
+}
+
+
+
 TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (with scale)", "[transformation/2d]") {
     using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, double>;
     auto m = TransformationType{};
