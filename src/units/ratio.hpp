@@ -22,6 +22,8 @@ namespace math {
         class RatioT : protected _impl::RatioT<T> {
             static_assert(!std::is_same_v<Origin<T>, Target<T>>, "A ratio should be always be between different types");
         public:
+            using _impl::RatioT<T>::operator T;
+
             RatioT(Origin<T> ori, Target<T> tgt) noexcept: _impl::RatioT<T>(static_cast<T>(tgt) / static_cast<T>(ori)) {}
 
             constexpr explicit RatioT(Magnum::Math::IdentityInitT) noexcept: _impl::RatioT<T>{Magnum::Math::IdentityInit} {}

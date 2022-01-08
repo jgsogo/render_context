@@ -18,27 +18,32 @@ namespace math::xy::types {
         public:
             using Translation = Magnum::Math::Vector2<Target<T>>;
             using Rotation = Magnum::Math::Deg<T>;
+            using Scale = ::math::types::RatioT<Origin, Target, T>;
 
             BaseTransformation() = default;
 
             BaseTransformation(const Translation &t, const Rotation &r) : _translation(t), _rotation(r) {}
 
             Magnum::Math::Vector2<Target<T>> transformPoint(const Magnum::Math::Vector2<Origin<T>> &in) const {
-                return _transformation.transformPoint(in);
+                auto translatetyped = Magnum::Math::Vector2<T>{in};
+                return Magnum::Math::Vector2<Target<T>>{_transformation.transformPoint(translatetyped)};
             }
 
         protected:
-            void update(const Magnum::Math::Vector2<Target<T>> &translate,
-                        const Magnum::Math::Deg<T> &rotate,
-                        const T &scale) {  // Always preserve x/y ratio
-                _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
+            void update(const Translation &translate,
+                        const Rotation &rotate,
+                        const Scale &scale) {  // Always preserve x/y ratio
+                auto translatetyped = Magnum::Math::Vector2<T>{translate};
+                auto scaletyped = Magnum::Math::Vector2<T>{static_cast<T>(scale), static_cast<T>(scale)};
+                _transformation = Magnum::Math::Matrix3<T>::translation(translatetyped) *
                                   Magnum::Math::Matrix3<T>::rotation(rotate) *
-                                  Magnum::Math::Matrix3<T>::scaling({scale, scale});
+                                  Magnum::Math::Matrix3<T>::scaling(scaletyped);
             }
 
-            void update(const Magnum::Math::Vector2<T> &translate,
-                        const Magnum::Math::Deg<T> &rotate) {
-                _transformation = Magnum::Math::Matrix3<T>::translation(translate) *
+            void update(const Translation &translate,
+                        const Rotation &rotate) {
+                auto translatetyped = Magnum::Math::Vector2<T>{translate};
+                _transformation = Magnum::Math::Matrix3<T>::translation(translatetyped) *
                                   Magnum::Math::Matrix3<T>::rotation(rotate);
             }
 
@@ -54,9 +59,9 @@ namespace math::xy::types {
             typename T, typename Enable = void>
     class Transformation : public _impl::BaseTransformation<Origin, Target, T> {
     public:
-        using Translation = Magnum::Math::Vector2<Target<T>>;
-        using Scale = ::math::types::RatioT<Origin, Target, T>;
-        using Rotation = Magnum::Math::Deg<T>;
+        using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
+        using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
+        using Scale = typename _impl::BaseTransformation<Origin, Target, T>::Scale;
 
         Transformation() = default;
 
@@ -102,8 +107,8 @@ namespace math::xy::types {
     class Transformation<Origin, Target, T, typename std::enable_if_t<std::is_same_v<Origin<T>, Target<T>>>>
             : public _impl::BaseTransformation<Origin, Target, T> {
     public:
-        using Translation = Magnum::Math::Vector2<Target<T>>;
-        using Rotation = Magnum::Math::Deg<T>;
+        using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
+        using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
 
         Transformation() = default;
 
