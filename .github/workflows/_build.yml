@@ -90,7 +90,7 @@ jobs:
         run: |
           jq '.graph_lock.nodes[] | select( .context=="build") | .ref' build/lockfile.json | while read -r reference ; do
               echo "$reference"
-              ref="${reference//"#"/"#@"}"
+              ref=$(echo $reference | sed 's/#/#@/g')
               echo "$ref"
           done
 
