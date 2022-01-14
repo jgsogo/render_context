@@ -39,6 +39,7 @@ jobs:
     env:
       CONAN_USER_HOME: /home/conan
       CONAN_SYSREQUIRES_MODE: enabled
+      CONAN_PRINT_RUN_COMMANDS: 1
     steps:
       - name: Upgrade Git version
         working-directory: /home/conan
