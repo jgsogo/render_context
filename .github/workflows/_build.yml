@@ -90,7 +90,7 @@ jobs:
         run: |
           jq '.graph_lock.nodes[] | select( .context=="build") | .ref' build/lockfile.json | while read -r reference ; do
               echo "$reference"
-              echo "${reference/\#/\#@}"
+              echo "${reference/\\#/\\#@}"
           done
 
       - name: Build dependencies
