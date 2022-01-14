@@ -89,9 +89,9 @@ jobs:
       - name: Build the build-requires
         run: |
           jq '.graph_lock.nodes[] | select( .context=="build") | .ref' build/lockfile.json | while read -r reference ; do
-              echo "$reference"
               ref=$(echo $reference | sed 's/#/#@/g')
-              echo "$ref"
+              echo "\n\n$ref"
+              conan install $ref --build=missing --profile:host=default --profile:build=default
           done
 
       - name: Build dependencies
