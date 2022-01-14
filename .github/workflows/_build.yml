@@ -38,6 +38,7 @@ jobs:
       image: ${{ inputs.docker_image }}
     env:
       CONAN_USER_HOME: /home/conan
+      CONAN_SYSREQUIRES_MODE: enabled
     steps:
       - name: Upgrade Git version
         working-directory: /home/conan
