@@ -91,7 +91,7 @@ jobs:
           mkdir br && cd br
           echo "[requires]\n" >> conanfile.txt
           jq '.graph_lock.nodes[] | select( .context=="build") | .ref' ../build/lockfile.json | while read -r reference ; do
-              ref=$(echo $reference | sed 's/#/#@/g')
+              ref=$(echo $reference | sed 's/#/@#/g')
               ref_unquoted=$(echo $ref | sed 's/\"//g')
               echo "$ref_unquoted\n" >> conanfile.txt
           done
