@@ -81,6 +81,10 @@ jobs:
           mkdir build && cd build
           conan lock create --profile:host=cpp20 --profile:build=default --lockfile=../lockfile.json --lockfile-out=lockfile.json --name=${{ inputs.library_name }} --version=${{ inputs.library_version }} ../conanfile.txt --build --update
 
+      - name: Build the build-requires
+        run: |
+          jq .graph_lock.nodes[] | select( .context=="build") | .ref build/lockfile.json
+
       - name: Build dependencies
         run: |
           cd build
