@@ -83,7 +83,7 @@ jobs:
 
       - name: Build the build-requires
         run: |
-          jq .graph_lock.nodes[] | select( .context=="build") | .ref build/lockfile.json
+          jq '.graph_lock.nodes[] | select( .context=="build") | .ref' build/lockfile.json
 
       - name: Build dependencies
         run: |
