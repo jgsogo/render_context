@@ -76,10 +76,14 @@ jobs:
           conan profile list
           mkdir cmake-build-cpp20
 
-      - name: Build dependencies
+      - name: Compute lockfile for current configuration
         run: |
           mkdir build && cd build
           conan lock create --profile:host=cpp20 --profile:build=default --lockfile=../lockfile.json --lockfile-out=lockfile.json --name=${{ inputs.library_name }} --version=${{ inputs.library_version }} ../conanfile.txt --build --update
+
+      - name: Build dependencies
+        run: |
+          cd build
           conan install --lockfile=lockfile.json ../conanfile.txt --build=missing --generator=virtualenv
           conan remove "*" --builds --force
           conan remove "*" --src --force
