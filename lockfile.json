@@ -72,7 +72,7 @@
     "context": "host"
    },
    "11": {
-    "ref": "magnum-integration/2020.06#506ba976cc64650c3a0a927125cf1f15",
+    "ref": "magnum-integration/2020.06#f08083a0054cd795f313e3dc3b546921",
     "requires": [
      "2",
      "12",
