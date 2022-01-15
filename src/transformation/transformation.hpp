@@ -4,7 +4,7 @@
 #include <Magnum/Magnum.h>
 #include <Magnum/Math/Matrix3.h>
 #include <Magnum/Math/Vector2.h>
-#include "units/ratio.hpp"
+#include "../units/ratio.hpp"
 
 namespace math::xy::types {
     /* Simplification of homogeneous coordinate matrices. Here translation is

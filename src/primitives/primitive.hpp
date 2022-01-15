@@ -1,15 +1,13 @@
 #pragma once
 
-#include "math/units.h"
-#include "render.h"
+#include "../render/context.h"
 
-namespace madbricks::render {
+namespace primitives {
+    using RenderContext = render::imgui::Context<math::types::MilimetersT>;
+    using Vector2Mm = Magnum::Math::Vector2<math::Milimeters>;
 
     struct Primitive {
-        virtual void doRender(RenderContext<math::MilimetersT, float> &render) const = 0;
+        virtual void doRender(RenderContext &render) const = 0;
     };
 
-    struct LineElement : Primitive {
-        [[nodiscard]] virtual std::vector<Magnum::Math::Vector2<math::Milimeters>> getPolyline() const = 0;
-    };
 }
