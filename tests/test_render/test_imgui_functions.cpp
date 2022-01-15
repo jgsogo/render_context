@@ -11,7 +11,7 @@ using namespace math::units;
  * TODO:  is useful to know they just work (and templates are instantiated)
  * */
 
-TEST_CASE("test_render/test_imgui_functions | Draw a circle", "[render/imgui]") {
+TEST_CASE("test_render/test_imgui_functions | Draw functions", "[render/imgui]") {
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     io.DisplaySize = ImVec2(1920, 1080);
