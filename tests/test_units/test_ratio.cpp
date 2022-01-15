@@ -5,22 +5,22 @@
 using namespace math::units;
 
 TEST_CASE("test_units/test_ratio | Ratio and print", "[units/ratio]") {
-    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, double>(1_px, 10_mm);
+    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, float>(1_px, 10_mm);
     std::ostringstream os;
     os << ratio;
     REQUIRE(os.str() == "10 mm/px");
 }
 
 TEST_CASE("test_units/test_ratio | Ratio inverse", "[units/ratio]") {
-    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, double>(1_px, 10_mm);
+    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, float>(1_px, 10_mm);
     std::ostringstream os;
     os << ratio.inverse();
     REQUIRE(os.str() == "0.1 px/mm");
 }
 
 TEST_CASE("test_units/test_ratio | Inverse ratio", "[units/ratio]") {
-    using ForwardRatio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, double>;
-    using BackwardRatio = math::types::RatioT<math::types::MilimetersT, math::types::PixelsT, double>;
+    using ForwardRatio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, float>;
+    using BackwardRatio = math::types::RatioT<math::types::MilimetersT, math::types::PixelsT, float>;
     auto ratio = ForwardRatio{1_px, 10_mm};
     {
         std::ostringstream os;
@@ -36,7 +36,7 @@ TEST_CASE("test_units/test_ratio | Inverse ratio", "[units/ratio]") {
 }
 
 TEST_CASE("test_units/test_ratio | Apply ratio", "[units/ratio]") {
-    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, double>(1_px, 10_mm);
+    auto ratio = math::types::RatioT<math::types::PixelsT, math::types::MilimetersT, float>(1_px, 10_mm);
     {
         std::ostringstream os;
         os << (ratio * 10_px);

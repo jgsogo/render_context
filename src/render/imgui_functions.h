@@ -1,7 +1,7 @@
 #pragma once
 
+#include <imgui.h>
 #include <Magnum/Math/Vector2.h>
-#include <Magnum/ImGuiIntegration/Context.hpp>
 
 #include "../units/units.hpp"
 

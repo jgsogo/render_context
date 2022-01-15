@@ -13,6 +13,8 @@ add_executable(unit_tests
         test_units/test_ratio.cpp
 
         test_transformation/test_2d_matrix.cpp
+
+        test_render/test_imgui_functions.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2
