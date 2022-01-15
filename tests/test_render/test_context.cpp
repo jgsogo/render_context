@@ -10,20 +10,70 @@ using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 
 TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     mocks::DrawList drwList;
-    render::Context<math::types::MilimetersT, mocks::DrawList> ctxtMM{drwList};
 
-    /*
+    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, float>;
+    TransformationType::Translation translation{10_mm, 20_mm};
+    TransformationType::Rotation rotation{0_deg};
+    auto m = TransformationType{translation, rotation};
+
+    auto context = render::Context<math::types::MilimetersT, mocks::DrawList>{drwList} << m;
+
     SECTION("Draw circle") {
-        render::imgui::Vector2Px center{0_px, 0_px};
-        render::imgui::drawCircle(*drawlist, center, 10_px, IM_COL32_BLACK, 2_px);
-    }
-     */
+        Vector2Mm center{0_mm, 0_mm};
+        context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_px);
+        REQUIRE(drwList.drawCircle.size() == 1);
+        //REQUIRE(std::get<0>(drwList.drawCircle[0]) == render::Vector2Px{0_px, 0_px});
 
-    /*
-    SECTION("Draw line") {
-        Vector2Mm start{0_mm, 00_mm};
-        Vector2Mm end{20_mm, 10_mm};
-        ctxtMM.drawLine(start, end, IM_COL32_BLACK, 2_px);
     }
-     */
+
+    SECTION("Draw line") {
+        Vector2Mm start{0_mm, 0_mm};
+        Vector2Mm end{0_mm, 0_mm};
+        context.drawLine(start, end, IM_COL32_BLACK, 2_px);
+        REQUIRE(drwList.drawLine.size() == 1);
+    }
+
+    SECTION("Draw rectangle") {
+        Magnum::Math::Range2D<math::Milimeters> rect;
+        rect.topRight() = {100_mm, 0_mm};
+        rect.bottomLeft() = {0_mm, 20_mm};
+        context.drawRectangle(rect, IM_COL32_BLACK, 2_px);
+    }
+
+    SECTION("Draw rectangle filled") {
+        Magnum::Math::Range2D<math::Milimeters> rect;
+        rect.topRight() = {100_mm, 0_mm};
+        rect.bottomLeft() = {0_mm, 20_mm};
+        context.drawRectangleFilled(rect, IM_COL32_BLACK);
+    }
+
+    SECTION("Draw polyline") {
+        std::vector<Vector2Mm> points;
+        points.emplace_back(0_mm, 0_mm);
+        points.emplace_back(10_mm, 10_mm);
+        context.drawPolyline(points, IM_COL32_BLACK, 2_px, 0);
+    }
+
+    SECTION("Draw polyline filled") {
+        std::vector<Vector2Mm> points;
+        points.emplace_back(0_mm, 0_mm);
+        points.emplace_back(10_mm, 10_mm);
+        context.drawPolylineFilled(points, IM_COL32_BLACK);
+    }
+
+    SECTION("Draw text") {
+        Vector2Mm position{10_mm, 10_mm};
+        context.drawText(position, 10.f, IM_COL32_BLACK, "Some text");
+    }
+
+    SECTION("Draw image") {
+        Magnum::Math::Range2D<math::Pixels> uvCoords;
+        uvCoords.topRight() = {100_px, 0_px};
+        uvCoords.bottomLeft() = {0_px, 20_px};
+
+        std::array<render::Vector2Px, 4> bbox;
+        // TODO: Load texture and call function
+        //Magnum::GL::Texture2D textureID;
+        //render::imgui::drawImage(*drawlist, textureID, uvCoords, bbox);
+    }
 }

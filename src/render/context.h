@@ -48,7 +48,7 @@ namespace render {
         template<template<typename> typename Other>
         Context<Other, TDrawList> operator<<(const math::xy::types::Transformation<Other, Origin, float> &tf) const {
             Context<Other, TDrawList> ctxt{_drawList, _lod};
-            ctxt.transformation = _transformation * tf;
+            ctxt._transformation = _transformation * tf;
             return ctxt;
         }
 

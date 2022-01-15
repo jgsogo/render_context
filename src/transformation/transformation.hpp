@@ -30,7 +30,7 @@ namespace math::xy::types {
             }
 
             /* Transform magnitude taking only scale into account */
-            Target<T> transformMagnitude(const Origin<T>& in) {
+            Target<T> transformMagnitude(const Origin<T> &in) {
                 return Target<T>{static_cast<T>(in) * _transformation.uniformScaling()};
             }
 
@@ -133,6 +133,12 @@ namespace math::xy::types {
             this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
         }
 
+        template<template<typename> typename OriginT,
+                template<typename> typename TargetT,
+                template<typename> typename FinalT,
+                typename TT>
+        friend Transformation<OriginT, FinalT, TT> operator*(const Transformation<TargetT, FinalT, TT> &lhs, const Transformation<OriginT, TargetT, TT> &rhs);
+
     protected:
         Scale _scale = Scale{Magnum::Math::IdentityInit};
     };
@@ -145,6 +151,7 @@ namespace math::xy::types {
     public:
         using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
         using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
+        using _impl::BaseTransformation<Origin, Target, T>::_transformation;
 
         Transformation() = default;
 
@@ -165,4 +172,31 @@ namespace math::xy::types {
         }
     };
 
+
+    template<template<typename> typename Origin,
+            template<typename> typename Target,
+            template<typename> typename Final,
+            typename T>
+    Transformation<Origin, Final, T> operator*(const Transformation<Target, Final, T> &lhs, const Transformation<Origin, Target, T> &rhs) {
+        Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
+        auto translate = Magnum::Math::Vector2<Final<T>>{mResult.translation()};
+        auto rotation = Magnum::Rad{mResult.rotation()[0][0]};
+        if constexpr(std::is_same_v<Origin<T>, Final<T>>) {
+            return Transformation<Origin, Final, T>{translate, rotation};
+        } else {
+            auto scale = ::math::types::RatioT<Origin, Final, T>{Origin<T>{1}, Final<T>{mResult.uniformScaling()}};
+            return Transformation<Origin, Final, T>{translate, scale, rotation};
+        }
+    }
+
+    /*
+    template<template<typename> typename Origin,
+            template<typename> typename Target,
+            template<typename> typename Final,
+            typename T>
+    Transformation2D<Origin, Final, T> operator/(const Transformation2D<Target, Final, T> &lhs, const Transformation2D<Target, Origin, T> &rhs) {
+        Magnum::Math::Matrix3<T> matrix{lhs.getMatrix() * rhs.getMatrix().inverted()};
+        return Transformation2D<Origin, Final, T>{matrix};
+    }
+    */
 }

@@ -9,7 +9,8 @@ using namespace math::units;
  * TODO: Figure out what to test, what value to check... meanwhile, just executing these functions
  * TODO:  is useful to know they just work (and templates are instantiated, if any)
  * */
-TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui]") {
+
+TEST_CASE("test_render/test_imgui_context | Draw functions", "[render/imgui]") {
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     io.DisplaySize = ImVec2(1920, 1080);
@@ -23,51 +24,48 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
     ImGui::NewFrame();
     auto drawlist = ImGui::GetWindowDrawList();
 
-    render::ImGuiContext<math::types::MilimetersT> context{*drawlist};
-    using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
-
     SECTION("Draw circle") {
-        Vector2Mm center{0_mm, 0_mm};
-        context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_px);
+        render::Vector2Px center{0_px, 0_px};
+        render::drawCircle(*drawlist, center, 10_px, IM_COL32_BLACK, 2_px);
     }
 
     SECTION("Draw line") {
-        Vector2Mm start{0_mm, 0_mm};
-        Vector2Mm end{0_mm, 0_mm};
-        context.drawLine(start, end, IM_COL32_BLACK, 2_px);
+        render::Vector2Px start{0_px, 0_px};
+        render::Vector2Px end{0_px, 0_px};
+        render::drawLine(*drawlist, start, end, IM_COL32_BLACK, 2_px);
     }
 
     SECTION("Draw rectangle") {
-        Magnum::Math::Range2D<math::Milimeters> rect;
-        rect.topRight() = {100_mm, 0_mm};
-        rect.bottomLeft() = {0_mm, 20_mm};
-        context.drawRectangle(rect, IM_COL32_BLACK, 2_px);
+        Magnum::Math::Range2D<math::Pixels> rect;
+        rect.topRight() = {100_px, 0_px};
+        rect.bottomLeft() = {0_px, 20_px};
+        render::drawRectangle(*drawlist, rect, IM_COL32_BLACK, 2_px);
     }
 
     SECTION("Draw rectangle filled") {
-        Magnum::Math::Range2D<math::Milimeters> rect;
-        rect.topRight() = {100_mm, 0_mm};
-        rect.bottomLeft() = {0_mm, 20_mm};
-        context.drawRectangleFilled(rect, IM_COL32_BLACK);
+        Magnum::Math::Range2D<math::Pixels> rect;
+        rect.topRight() = {100_px, 0_px};
+        rect.bottomLeft() = {0_px, 20_px};
+        render::drawRectangleFilled(*drawlist, rect, IM_COL32_BLACK);
     }
 
     SECTION("Draw polyline") {
-        std::vector<Vector2Mm> points;
-        points.emplace_back(0_mm, 0_mm);
-        points.emplace_back(10_mm, 10_mm);
-        context.drawPolyline(points, IM_COL32_BLACK, 2_px, 0);
+        std::vector<render::Vector2Px> points;
+        points.emplace_back(0_px, 0_px);
+        points.emplace_back(10_px, 10_px);
+        render::drawPolyline(*drawlist, points, IM_COL32_BLACK, 2_px);
     }
 
     SECTION("Draw polyline filled") {
-        std::vector<Vector2Mm> points;
-        points.emplace_back(0_mm, 0_mm);
-        points.emplace_back(10_mm, 10_mm);
-        context.drawPolylineFilled(points, IM_COL32_BLACK);
+        std::vector<render::Vector2Px> points;
+        points.emplace_back(0_px, 0_px);
+        points.emplace_back(10_px, 10_px);
+        render::drawPolylineFilled(*drawlist, points, IM_COL32_BLACK);
     }
 
     SECTION("Draw text") {
-        Vector2Mm position{10_mm, 10_mm};
-        context.drawText(position, 10.f, IM_COL32_BLACK, "Some text");
+        render::Vector2Px position{10_px, 10_px};
+        render::drawText(*drawlist, position, 10.f, IM_COL32_BLACK, "Some text");
     }
 
     SECTION("Draw image") {
