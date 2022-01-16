@@ -59,8 +59,14 @@ namespace math {
 
     }
 
+    /* Template declaration for fixed ratios between known units */
+    template<const char *symbolOrigin, const char *symbolTarget, typename T>
+    types::RatioT<symbolOrigin, symbolTarget, T> ratio();
+
+    /* Creation of custom ratios */
     template<const char *symbolOrigin, const char *symbolTarget, typename T>
     types::RatioT<symbolOrigin, symbolTarget, T> ratio(types::NamedUnitT<T, symbolOrigin> ori, types::NamedUnitT<T, symbolTarget> tgt) {
+        // TODO: Check if 'ratio()' exists, in that case: fail and force its usage
         return types::RatioT<symbolOrigin, symbolTarget, T>(ori, tgt);
     }
 

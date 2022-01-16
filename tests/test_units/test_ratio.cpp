@@ -62,9 +62,23 @@ TEST_CASE("test_units/test_ratio | Apply ratio", "[units/ratio]") {
 }
 
 TEST_CASE("test_units/test_ratio | Ratio at math scope (implicit units)", "[units/ratio]") {
-    //auto ratio = math::ratio<math::types::PixelsT, math::types::MilimetersT, float>(1_px, 10_mm);
     auto ratio = math::ratio(1_px, 10_mm);
     std::ostringstream os;
     os << ratio;
     REQUIRE(os.str() == "10 mm/px");
+}
+
+TEST_CASE("test_units/test_ratio | Some known ratios", "[units/ratio]") {
+    {
+        auto ratio = math::ratio<mm, m, float>();
+        std::ostringstream os;
+        os << ratio;
+        REQUIRE(os.str() == "0.001 m/mm");
+    }
+    {
+        auto ratio = math::ratio<m, mm, float>();
+        std::ostringstream os;
+        os << ratio;
+        REQUIRE(os.str() == "1000 mm/m");
+    }
 }
