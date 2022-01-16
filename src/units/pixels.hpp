@@ -4,11 +4,13 @@
 
 namespace math {
 
-    namespace types {
-        static const char pxSymbol[] = "px";
+    namespace units {
+        static const char px[] = "px";
+    }
 
+    namespace types {
         template<typename T>
-        using PixelsT = NamedUnitT<T, pxSymbol>;
+        using PixelsT = NamedUnitT<T, units::px>;
     }
 
     using Pixels = types::PixelsT<float>;
