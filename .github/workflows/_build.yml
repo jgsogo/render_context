@@ -7,7 +7,7 @@ on:
       docker_image:
         type: string
         required: false
-        default: conanio/gcc11-ubuntu16.04:1.44.0
+        default: conanio/gcc10:1.43.3  # TODO: Use new docker images (gcc10)
       library_name:
         type: string
         required: true
@@ -38,6 +38,8 @@ jobs:
       image: ${{ inputs.docker_image }}
     env:
       CONAN_USER_HOME: /home/conan
+      CONAN_SYSREQUIRES_MODE: enabled
+      CONAN_PRINT_RUN_COMMANDS: 1
     steps:
       - name: Upgrade Git version
         working-directory: /home/conan
@@ -47,6 +49,11 @@ jobs:
           sudo add-apt-repository ppa:git-core/ppa -y
           sudo apt-get update
           sudo apt-get install git -y
+
+      - name: Install jq
+        working-directory: /home/conan
+        run: |
+          sudo apt-get install jq -y
 
       - name: Check out repository code
         uses: rodrigorodriguescosta/checkout@1d64c0a4a695ff5edb95596c11b430050668c83f  # FIXME: Not using actions/checkout just because of 'https://github.com/actions/checkout/pull/388'
@@ -76,10 +83,24 @@ jobs:
           conan profile list
           mkdir cmake-build-cpp20
 
-      - name: Build dependencies
+      - name: Compute lockfile for current configuration
         run: |
           mkdir build && cd build
           conan lock create --profile:host=cpp20 --profile:build=default --lockfile=../lockfile.json --lockfile-out=lockfile.json --name=${{ inputs.library_name }} --version=${{ inputs.library_version }} ../conanfile.txt --build --update
+
+      - name: Build the build-requires
+        # This is needed because of https://github.com/conan-io/conan/issues/10345, but
+        # if we use stable docker image (current epoch), all BR should be available in ConanCenter
+        run: |
+          jq '.graph_lock.nodes[] | select( .context=="build") | .ref' build/lockfile.json | while read -r reference ; do
+              ref=$(echo $reference | sed 's/#/@#/g')
+              ref_unquoted=$(echo $ref | sed 's/\"//g')
+              conan install $ref_unquoted --build=missing --profile:host=default --profile:build=default
+          done
+
+      - name: Build dependencies
+        run: |
+          cd build
           conan install --lockfile=lockfile.json ../conanfile.txt --build=missing --generator=virtualenv
           conan remove "*" --builds --force
           conan remove "*" --src --force

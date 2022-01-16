@@ -1,6 +1,19 @@
 [requires]
+imgui/cci.20211117+docking@jgsogo/stable
+magnum/2020.06
+# magnum-plugins/2020.06
+magnum-integration/2020.06
 catch2/2.13.7
+
+# [options]
+# magnum-plugins:shared_plugins=False
 
 [generators]
 cmake
 cmake_find_package
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+lib, *.so* -> ./bin
+lib, *.conf* -> ./bin
