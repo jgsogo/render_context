@@ -1,6 +1,5 @@
 
 #include "catch2/catch.hpp"
-#include "units/units.hpp"
 #include "render/imgui/context.h"
 
 using namespace math::units;

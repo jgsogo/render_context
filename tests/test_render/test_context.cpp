@@ -1,6 +1,8 @@
 
 #include "catch2/catch.hpp"
-#include "units/units.hpp"
+#include "units/milimeters.hpp"
+#include "units/pixels.hpp"
+#include "units/degrees.hpp"
 #include "render/context.h"
 
 #include "mock_draw_list.hpp"
@@ -11,12 +13,12 @@ using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     mocks::DrawList drwList;
 
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
     TransformationType::Translation translation{10_mm, 20_mm};
     TransformationType::Rotation rotation{0_deg};
     auto m = TransformationType{translation, rotation};
 
-    auto context = render::Context<math::types::MilimetersT, mocks::DrawList>{drwList} << m;
+    auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList} << m;
 
     SECTION("Draw circle") {
         Vector2Mm center{0_mm, 0_mm};

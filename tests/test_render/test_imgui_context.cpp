@@ -1,6 +1,7 @@
 
 #include "catch2/catch.hpp"
-#include "units/units.hpp"
+#include "units/milimeters.hpp"
+#include "units/pixels.hpp"
 #include "render/imgui/context.h"
 
 using namespace math::units;
@@ -23,7 +24,7 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
     ImGui::NewFrame();
     auto drawlist = ImGui::GetWindowDrawList();
 
-    render::ImGuiContext<math::types::MilimetersT> context{*drawlist};
+    render::ImGuiContext<math::Milimeters::symbol> context{*drawlist};
     using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 
     SECTION("Draw circle") {

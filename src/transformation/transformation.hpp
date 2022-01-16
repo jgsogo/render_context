@@ -12,27 +12,28 @@ namespace math::xy::types {
      * performed after rotation and scaling, thus it is expressed in Target coordinates */
 
     namespace _impl {
-        template<template<typename> typename Origin,
-                template<typename> typename Target,
-                typename T>
+        template<const char *symbolOrigin, const char *symbolTarget, typename T>
         class BaseTransformation {
         public:
-            using Translation = Magnum::Math::Vector2<Target<T>>;
+            using OriginUnits = ::math::types::NamedUnitT<T, symbolOrigin>;
+            using TargetUnits = ::math::types::NamedUnitT<T, symbolTarget>;
+
+            using Translation = Magnum::Math::Vector2<TargetUnits>;
             using Rotation = Magnum::Math::Deg<T>;
-            using Scale = typename std::conditional<!std::is_same_v<Origin<T>, Target<T>>, ::math::types::RatioT<Origin, Target, T>, Magnum::NoInitT>::type;
+            using Scale = typename std::conditional<!std::is_same_v<OriginUnits, TargetUnits>, ::math::types::RatioT<symbolOrigin, symbolTarget, T>, Magnum::NoInitT>::type;
 
             BaseTransformation() = default;
 
             BaseTransformation(const Translation &t, const Rotation &r) : _translation(t), _rotation(r) {}
 
-            Magnum::Math::Vector2<Target<T>> transformPoint(const Magnum::Math::Vector2<Origin<T>> &in) const {
+            Magnum::Math::Vector2<TargetUnits> transformPoint(const Magnum::Math::Vector2<OriginUnits> &in) const {
                 auto translatetyped = Magnum::Math::Vector2<T>{in};
-                return Magnum::Math::Vector2<Target<T>>{_transformation.transformPoint(translatetyped)};
+                return Magnum::Math::Vector2<TargetUnits>{_transformation.transformPoint(translatetyped)};
             }
 
             /* Transform magnitude taking only scale into account */
-            Target<T> transformMagnitude(const Origin<T> &in) {
-                return Target<T>{static_cast<T>(in) * _transformation.uniformScaling()};
+            TargetUnits transformMagnitude(const OriginUnits &in) {
+                return TargetUnits{static_cast<T>(in) * _transformation.uniformScaling()};
             }
 
             /* Functions to set/update transformation */
@@ -95,25 +96,24 @@ namespace math::xy::types {
         };
     }
 
-    template<template<typename> typename Origin,
-            template<typename> typename Target,
-            typename T, typename Enable = void>
-    class Transformation : public _impl::BaseTransformation<Origin, Target, T> {
+    template<const char *symbolOrigin, const char *symbolTarget, typename T, typename Enable = void>
+    class Transformation : public _impl::BaseTransformation<symbolOrigin, symbolTarget, T> {
     public:
-        using _impl::BaseTransformation<Origin, Target, T>::set;
-        using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
-        using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
-        using Scale = typename _impl::BaseTransformation<Origin, Target, T>::Scale;
+        using _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::set;
+        using Translation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Translation;
+        using Rotation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Rotation;
+        using Scale = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Scale;
 
         Transformation() = default;
 
         Transformation(const Translation &t, const Scale &s, const Rotation &r)
-                : _impl::BaseTransformation<Origin, Target, T>(t, r), _scale(s) {
-            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
+                : _impl::BaseTransformation<symbolOrigin, symbolTarget, T>(t, r), _scale(s) {
+            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
+                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation, _scale);
         }
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
-            os << "[" << Origin<T>::symbol << " > " << Target<T>::symbol << "]";
+            os << "[" << symbolOrigin << " > " << symbolTarget << "]";
             os << " scale(" << tf._scale << "),";
             os << " rotate(" << static_cast<T>(tf._rotation) << "),";
             os << " translate(" << tf._translation.x() << ", " << tf._translation.y() << ")";
@@ -131,12 +131,13 @@ namespace math::xy::types {
         }
 
         void _update() override {
-            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation, _scale);
+            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
+                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation, _scale);
         }
 
-        template<template<typename> typename OriginT,
-                template<typename> typename TargetT,
-                template<typename> typename FinalT,
+        template<const char *OriginT,
+                const char *TargetT,
+                const char *FinalT,
                 typename TT>
         friend Transformation<OriginT, FinalT, TT> operator*(const Transformation<TargetT, FinalT, TT> &lhs, const Transformation<OriginT, TargetT, TT> &rhs);
 
@@ -144,24 +145,23 @@ namespace math::xy::types {
         Scale _scale = Scale{Magnum::Math::IdentityInit};
     };
 
-    template<template<typename> typename Origin,
-            template<typename> typename Target,
-            typename T>
-    class Transformation<Origin, Target, T, typename std::enable_if_t<std::is_same_v<Origin<T>, Target<T>>>>
-            : public _impl::BaseTransformation<Origin, Target, T> {
+    template<const char *symbolOrigin, const char *symbolTarget, typename T>
+    class Transformation<symbolOrigin, symbolTarget, T, typename std::enable_if_t<std::is_same_v<math::types::NamedUnitT<T, symbolOrigin>, math::types::NamedUnitT<T, symbolTarget >>>>
+            : public _impl::BaseTransformation<symbolOrigin, symbolTarget, T> {
     public:
-        using Translation = typename _impl::BaseTransformation<Origin, Target, T>::Translation;
-        using Rotation = typename _impl::BaseTransformation<Origin, Target, T>::Rotation;
-        using _impl::BaseTransformation<Origin, Target, T>::_transformation;
+        using Translation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Translation;
+        using Rotation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Rotation;
+        using _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_transformation;
 
         Transformation() = default;
 
-        Transformation(const Translation &t, const Rotation &r) : _impl::BaseTransformation<Origin, Target, T>(t, r) {
-            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation);
+        Transformation(const Translation &t, const Rotation &r) : _impl::BaseTransformation<symbolOrigin, symbolTarget, T>(t, r) {
+            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
+                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation);
         }
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
-            os << "[" << Origin<T>::symbol << " > " << Target<T>::symbol << "]";
+            os << "[" << symbolOrigin << " > " << symbolTarget << "]";
             os << " rotate(" << static_cast<T>(tf._rotation) << "),";
             os << " translate(" << tf._translation.x() << ", " << tf._translation.y() << ")";
             return os;
@@ -169,25 +169,26 @@ namespace math::xy::types {
 
     protected:
         void _update() override {
-            this->update(_impl::BaseTransformation<Origin, Target, T>::_translation, _impl::BaseTransformation<Origin, Target, T>::_rotation);
+            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
+                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation);
         }
     };
 
 
-    template<template<typename> typename Origin,
-            template<typename> typename Target,
-            template<typename> typename Final,
+    template<const char *Origin,
+            const char *Target,
+            const char *Final,
             typename T>
     Transformation<Origin, Final, T> operator*(const Transformation<Target, Final, T> &lhs, const Transformation<Origin, Target, T> &rhs) {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
-        auto translate = Magnum::Math::Vector2<Final<T>>{mResult.translation()};
+        auto translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
         auto rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
         auto scaleFactor = mResult.uniformScaling();
-        if constexpr(std::is_same_v<Origin<T>, Final<T>>) {
+        if constexpr(std::is_same_v<math::types::NamedUnitT<T, Origin>, math::types::NamedUnitT<T, Final>>) {
             assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
             return Transformation<Origin, Final, T>{translate, rotation};
         } else {
-            auto scale = ::math::types::RatioT<Origin, Final, T>{Origin<T>{1}, Final<T>{scaleFactor}};
+            auto scale = ::math::types::RatioT<Origin, Final, T>{math::types::NamedUnitT<T, Origin>{1}, math::types::NamedUnitT<T, Final>{scaleFactor}};
             return Transformation<Origin, Final, T>{translate, scale, rotation};
         }
     }

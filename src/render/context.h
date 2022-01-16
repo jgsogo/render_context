@@ -7,7 +7,6 @@
 #include <Magnum/Math/Range.h>
 #include <Magnum/GL/Texture.h>
 
-#include "../units/units.hpp"
 #include "../transformation/transformation.hpp"
 
 namespace render {
@@ -38,14 +37,15 @@ namespace render {
     void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<math::Pixels> uvCoords,
                    std::array<Vector2Px, 4> bbox);
 
-    template<template<typename> typename Origin, typename TDrawList>
+    template<const char *Origin, typename TDrawList>
     class Context {
-        using Vector2Ori = Magnum::Math::Vector2<Origin<float>>;
+        using OriginUnits = ::math::types::NamedUnitT<float, Origin>;
+        using Vector2Ori = Magnum::Math::Vector2<OriginUnits>;
     public:
         explicit Context(TDrawList &dl, int lodLevel = 0) : _drawList{dl}, _lod{lodLevel} {
         }
 
-        template<template<typename> typename Other>
+        template<const char *Other>
         Context<Other, TDrawList> operator<<(const math::xy::types::Transformation<Other, Origin, float> &tf) const {
             Context<Other, TDrawList> ctxt{_drawList, _lod};
             ctxt._transformation = _transformation * tf;
@@ -54,7 +54,7 @@ namespace render {
 
         /* Draw functions */
 
-        void drawCircle(Vector2Ori center, Origin<float> radius, ImU32 color, math::Pixels thickness) {
+        void drawCircle(Vector2Ori center, OriginUnits radius, ImU32 color, math::Pixels thickness) {
             auto rpx = _transformation.transformMagnitude(radius);
             auto centerpx = _transformation.transformPoint(center);
             render::drawCircle<TDrawList>(_drawList, centerpx, rpx, color, thickness);
@@ -66,7 +66,7 @@ namespace render {
             render::drawLine<TDrawList>(_drawList, iniPoint, endPoint, color, thickness);
         }
 
-        void drawRectangle(Magnum::Math::Range2D<Origin<float>> rectangle, ImU32 color, math::Pixels thickness) {
+        void drawRectangle(Magnum::Math::Range2D<OriginUnits> rectangle, ImU32 color, math::Pixels thickness) {
             // TODO: (Optimize) if no rotation, just call 'drawRectangle'
             std::vector<Vector2Ori> points = {
                     rectangle.topLeft(),
@@ -77,7 +77,7 @@ namespace render {
             this->drawPolyline(points, color, thickness, ImDrawFlags_Closed);
         }
 
-        void drawRectangleFilled(Magnum::Math::Range2D<Origin<float>> rectangle, ImU32 color) {
+        void drawRectangleFilled(Magnum::Math::Range2D<OriginUnits> rectangle, ImU32 color) {
             // TODO: (Optimize) if no rotation, just call 'drawRectangleFilled'
             std::vector<Vector2Ori> points = {
                     rectangle.topLeft(),
@@ -112,7 +112,7 @@ namespace render {
         }
 
         void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<math::Pixels> uvCoords,
-                       Magnum::Math::Range2D<Origin<float>> bbox_) {
+                       Magnum::Math::Range2D<OriginUnits> bbox_) {
             std::array<Vector2Px, 4> bbox = {
                     _transformation.transformPoint(bbox_.topLeft()),
                     _transformation.transformPoint(bbox_.topRight()),
@@ -125,6 +125,6 @@ namespace render {
     protected:
         TDrawList &_drawList;
         int _lod = 0;
-        math::xy::types::Transformation<Origin, math::types::PixelsT, float> _transformation;
+        math::xy::types::Transformation<Origin, math::Pixels::symbol, float> _transformation;
     };
 }
