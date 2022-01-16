@@ -2,10 +2,6 @@
 find_package(imgui REQUIRED)
 
 add_library(render_imgui INTERFACE)
-#        imconfig.h
-#        context.h
-#        context.cpp
-#        )
 
 target_link_libraries(render_imgui
         INTERFACE
