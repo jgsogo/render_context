@@ -20,15 +20,15 @@ TEST_CASE("test_transformation/test_operations | Compose operations", "[transfor
     SECTION("Transformation t1 * t2") {
         auto t = t1 * t2;
         auto pxs = t.transformPoint({1_mm, 0_mm});
-        REQUIRE(pxs.x() == 11_mm);
-        REQUIRE(pxs.y() == 100_mm);
+        REQUIRE(pxs.x() == 10_mm);
+        REQUIRE(pxs.y() == 101_mm);
     }
 
     SECTION("Transformation t2 * t1") {
         auto t = t2 * t1;
         auto pxs = t.transformPoint({1_mm, 0_mm});
-        REQUIRE(pxs.x() == 111_mm);
-        REQUIRE(pxs.y() == 0_mm);
+        REQUIRE(pxs.x() == 110_mm);
+        REQUIRE(pxs.y() == 1_mm);
     }
 }
 
@@ -37,7 +37,7 @@ TEST_CASE("test_transformation/test_operations | Compose operations with scale",
     using Transformation2 = math::xy::types::Transformation<math::types::PixelsT, math::types::MilimetersT, float>;
 
     Transformation1::Translation translation1{10_px, 0_px};
-    Transformation1::Scale scale1 = math::ratio(1_mm, 1_px);
+    Transformation1::Scale scale1 = math::ratio(1_mm, 2_px);
     Transformation1::Rotation rotation1{90.0_deg};
     auto t1 = Transformation1{translation1, scale1, rotation1};
 
@@ -49,14 +49,14 @@ TEST_CASE("test_transformation/test_operations | Compose operations with scale",
     SECTION("Transformation t1 * t2") {
         auto t = t1 * t2;
         auto pxs = t.transformPoint({10_px, 0_px});
-        REQUIRE(pxs.x() == 20_px);
-        REQUIRE(pxs.y() == 100_px);
+        REQUIRE(pxs.x() == 10_px);
+        REQUIRE(pxs.y() == 210_px);
     }
 
     SECTION("Transformation t2 * t1") {
         auto t = t2 * t1;
         auto pxs = t.transformPoint({10_mm, 0_mm});
-        REQUIRE(pxs.x() == 115_mm);
-        REQUIRE(pxs.y() == 0_mm);
+        REQUIRE(pxs.x() == 105_mm);
+        REQUIRE(pxs.y() == 10_mm);
     }
 }

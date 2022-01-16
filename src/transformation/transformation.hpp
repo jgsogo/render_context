@@ -4,6 +4,7 @@
 #include <Magnum/Magnum.h>
 #include <Magnum/Math/Matrix3.h>
 #include <Magnum/Math/Vector2.h>
+#include <Magnum/Math/Complex.h>
 #include "../units/ratio.hpp"
 
 namespace math::xy::types {
@@ -180,11 +181,13 @@ namespace math::xy::types {
     Transformation<Origin, Final, T> operator*(const Transformation<Target, Final, T> &lhs, const Transformation<Origin, Target, T> &rhs) {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
         auto translate = Magnum::Math::Vector2<Final<T>>{mResult.translation()};
-        auto rotation = Magnum::Rad{mResult.rotation()[0][0]};
+        auto rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
+        auto scaleFactor = mResult.uniformScaling();
         if constexpr(std::is_same_v<Origin<T>, Final<T>>) {
+            assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
             return Transformation<Origin, Final, T>{translate, rotation};
         } else {
-            auto scale = ::math::types::RatioT<Origin, Final, T>{Origin<T>{1}, Final<T>{mResult.uniformScaling()}};
+            auto scale = ::math::types::RatioT<Origin, Final, T>{Origin<T>{1}, Final<T>{scaleFactor}};
             return Transformation<Origin, Final, T>{translate, scale, rotation};
         }
     }
