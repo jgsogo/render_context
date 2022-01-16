@@ -13,4 +13,3 @@ target_compile_definitions(render_imgui
         INTERFACE
         IMGUI_USER_CONFIG=\"${CMAKE_CURRENT_LIST_DIR}/imconfig.h\"
         )
-
