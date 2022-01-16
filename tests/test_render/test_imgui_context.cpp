@@ -76,7 +76,7 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
         uvCoords.topRight() = {100_px, 0_px};
         uvCoords.bottomLeft() = {0_px, 20_px};
 
-        std::array<render::Vector2Px, 4> bbox;
+        std::array<Magnum::Math::Vector2<float>, 4> bbox;
         // TODO: Load texture and call function
         //Magnum::GL::Texture2D textureID;
         //render::imgui::drawImage(*drawlist, textureID, uvCoords, bbox);

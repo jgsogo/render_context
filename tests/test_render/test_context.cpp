@@ -24,10 +24,10 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         Vector2Mm center{0_mm, 0_mm};
         context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_px);
         REQUIRE(drwList.drawCircle.size() == 1);
-        REQUIRE(std::get<0>(drwList.drawCircle[0]) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<1>(drwList.drawCircle[0]) == 10_px);
+        REQUIRE(std::get<0>(drwList.drawCircle[0]) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<1>(drwList.drawCircle[0]) == 10.f);
         REQUIRE(std::get<2>(drwList.drawCircle[0]) == IM_COL32_BLACK);
-        REQUIRE(std::get<3>(drwList.drawCircle[0]) == 2_px);
+        REQUIRE(std::get<3>(drwList.drawCircle[0]) == 2.f);
     }
 
     SECTION("Draw line") {
@@ -35,10 +35,10 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         Vector2Mm end{10_mm, 10_mm};
         context.drawLine(start, end, IM_COL32_BLACK, 2_px);
         REQUIRE(drwList.drawLine.size() == 1);
-        REQUIRE(std::get<0>(drwList.drawLine[0]) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<1>(drwList.drawLine[0]) == render::Vector2Px{20_px, 30_px});
+        REQUIRE(std::get<0>(drwList.drawLine[0]) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<1>(drwList.drawLine[0]) == Magnum::Math::Vector2<float>{20.f, 30.f});
         REQUIRE(std::get<2>(drwList.drawLine[0]) == IM_COL32_BLACK);
-        REQUIRE(std::get<3>(drwList.drawLine[0]) == 2_px);
+        REQUIRE(std::get<3>(drwList.drawLine[0]) == 2.f);
     }
 
     SECTION("Draw rectangle") {
@@ -50,12 +50,12 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         REQUIRE(drwList.drawRectangle.size() == 0);
         REQUIRE(drwList.drawPolyline.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolyline[0]).size() == 4);
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(0) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(1) == render::Vector2Px{110_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(2) == render::Vector2Px{110_px, 40_px});
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(3) == render::Vector2Px{10_px, 40_px});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(0) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(1) == Magnum::Math::Vector2<float>{110.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(2) == Magnum::Math::Vector2<float>{110.f, 40.f});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(3) == Magnum::Math::Vector2<float>{10.f, 40.f});
         REQUIRE(std::get<1>(drwList.drawPolyline[0]) == IM_COL32_BLACK);
-        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 2_px);
+        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 2.f);
         REQUIRE(std::get<3>(drwList.drawPolyline[0]) == ImDrawFlags_Closed);
     }
 
@@ -68,10 +68,10 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         REQUIRE(drwList.drawRectangleFilled.size() == 0);
         REQUIRE(drwList.drawPolylineFilled.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).size() == 4);
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(0) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(1) == render::Vector2Px{110_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(2) == render::Vector2Px{110_px, 40_px});
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(3) == render::Vector2Px{10_px, 40_px});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(0) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(1) == Magnum::Math::Vector2<float>{110.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(2) == Magnum::Math::Vector2<float>{110.f, 40.f});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(3) == Magnum::Math::Vector2<float>{10.f, 40.f});
         REQUIRE(std::get<1>(drwList.drawPolylineFilled[0]) == IM_COL32_BLACK);
     }
 
@@ -83,10 +83,10 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
 
         REQUIRE(drwList.drawPolyline.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolyline[0]).size() == 2);
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(0) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(1) == render::Vector2Px{20_px, 30_px});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(0) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(1) == Magnum::Math::Vector2<float>{20.f, 30.f});
         REQUIRE(std::get<1>(drwList.drawPolyline[0]) == IM_COL32_BLACK);
-        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 2_px);
+        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 2.f);
         REQUIRE(std::get<3>(drwList.drawPolyline[0]) == 0);
     }
 
@@ -98,8 +98,8 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
 
         REQUIRE(drwList.drawPolylineFilled.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).size() == 2);
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(0) == render::Vector2Px{10_px, 20_px});
-        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(1) == render::Vector2Px{20_px, 30_px});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(0) == Magnum::Math::Vector2<float>{10.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(1) == Magnum::Math::Vector2<float>{20.f, 30.f});
         REQUIRE(std::get<1>(drwList.drawPolylineFilled[0]) == IM_COL32_BLACK);
     }
 
@@ -108,7 +108,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         context.drawText(position, 10.f, IM_COL32_BLACK, "Some text");
 
         REQUIRE(drwList.drawText.size() == 1);
-        REQUIRE(std::get<0>(drwList.drawText[0]) == render::Vector2Px{20_px, 30_px});
+        REQUIRE(std::get<0>(drwList.drawText[0]) == Magnum::Math::Vector2<float>{20.f, 30.f});
         REQUIRE(std::get<1>(drwList.drawText[0]) == 10.f);
         REQUIRE(std::get<2>(drwList.drawText[0]) == IM_COL32_BLACK);
         REQUIRE(std::get<3>(drwList.drawText[0]) == "Some text");
@@ -119,7 +119,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         uvCoords.topRight() = {100_px, 0_px};
         uvCoords.bottomLeft() = {0_px, 20_px};
 
-        std::array<render::Vector2Px, 4> bbox;
+        std::array<Magnum::Math::Vector2<float>, 4> bbox;
         // TODO: Load texture and call function
         //Magnum::GL::Texture2D textureID;
         //render::imgui::drawImage(*drawlist, textureID, uvCoords, bbox);
