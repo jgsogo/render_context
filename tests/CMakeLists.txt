@@ -11,6 +11,7 @@ add_executable(unit_tests
         test_units/test_milimeters.cpp
         test_units/test_pixels.cpp
         test_units/test_ratio.cpp
+        test_units/test_named_unit.cpp
 
         test_transformation/test_2d_matrix.cpp
         test_transformation/test_operations.cpp

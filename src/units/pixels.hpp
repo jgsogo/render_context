@@ -1,30 +1,27 @@
 #pragma once
 
-#include <ostream>
-#include <Magnum/Math/Unit.h>
+#include "named_unit.hpp"
 
-namespace math::types {
-    template<class T>
-    class PixelsT : public Magnum::Math::Unit<PixelsT, T> {
-    public:
-        static constexpr char symbol[] = "px";
-    public:
-        /** @brief Construct initialize to zero */
-        constexpr /*implicit*/ PixelsT() noexcept: Magnum::Math::Unit<PixelsT, T>{Magnum::Math::ZeroInit} {}
+namespace math {
 
-        /** @brief Construct a zero */
-        constexpr explicit PixelsT(Magnum::Math::ZeroInitT) noexcept: Magnum::Math::Unit<PixelsT, T>{Magnum::Math::ZeroInit} {}
+    namespace units {
+        static const char px[] = "px";
+    }
 
-        /** @brief Explicit constructor from unitless type */
-        constexpr explicit PixelsT(T value) noexcept: Magnum::Math::Unit<PixelsT, T>(value) {}
+    namespace types {
+        template<typename T>
+        using PixelsT = NamedUnitT<T, units::px>;
+    }
 
-        /** @brief Copy constructor */
-        constexpr /*implicit*/ PixelsT(Magnum::Math::Unit<PixelsT, T> other) noexcept: Magnum::Math::Unit<PixelsT, T>(other) {}
+    using Pixels = types::PixelsT<float>;
 
-        /* Operators */
-        friend std::ostream &operator<<(std::ostream &os, const PixelsT &mms) {
-            os << static_cast<T>(mms) << " " << symbol;
-            return os;
+    namespace units {
+        constexpr Pixels operator "" _px(long double d) {
+            return Pixels{static_cast<float>(d)};
         }
-    };
+
+        constexpr Pixels operator "" _px(unsigned long long d) {
+            return Pixels{static_cast<float>(d)};
+        }
+    }
 }

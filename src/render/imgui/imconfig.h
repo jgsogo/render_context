@@ -2,7 +2,7 @@
 
 #include <Magnum/Math/Vector2.h>
 #include <Magnum/Magnum.h>
-#include "../../units/units.hpp"
+#include "../../units/pixels.hpp"
 
 #define IM_VEC2_CLASS_EXTRA                                                \
         ImVec2(const Magnum::Vector2& f) { x = f.x(); y = f.y(); }         \

@@ -1,11 +1,13 @@
 #include "catch2/catch.hpp"
-#include "units/units.hpp"
+#include "units/milimeters.hpp"
+#include "units/pixels.hpp"
+#include "units/degrees.hpp"
 #include "transformation/transformation.hpp"
 
 using namespace math::units;
 
 TEST_CASE("test_transformation/test_operations | Compose operations", "[transformation/2d/operations]") {
-    using Transformation = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, float>;
+    using Transformation = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
 
     Transformation::Translation translation1{10_mm, 0_mm};
     //Transformation::Scale scale1 = math::ratio(1_mm, 1_px);
@@ -33,8 +35,8 @@ TEST_CASE("test_transformation/test_operations | Compose operations", "[transfor
 }
 
 TEST_CASE("test_transformation/test_operations | Compose operations with scale", "[transformation/2d/operations]") {
-    using Transformation1 = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, float>;
-    using Transformation2 = math::xy::types::Transformation<math::types::PixelsT, math::types::MilimetersT, float>;
+    using Transformation1 = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
+    using Transformation2 = math::xy::types::Transformation<math::Pixels::symbol, math::Milimeters::symbol, float>;
 
     Transformation1::Translation translation1{10_px, 0_px};
     Transformation1::Scale scale1 = math::ratio(1_mm, 2_px);

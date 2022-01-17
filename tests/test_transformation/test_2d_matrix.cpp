@@ -1,13 +1,15 @@
 #include <sstream>
 #include "catch2/catch.hpp"
-#include "units/units.hpp"
+#include "units/milimeters.hpp"
+#include "units/pixels.hpp"
+#include "units/degrees.hpp"
 #include "transformation/transformation.hpp"
 
 using namespace math::units;
 
 
 TEST_CASE("test_transformation/test_2d_matrix | Different unit types", "[transformation/2d]") {
-    math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, double> m;
+    math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, double> m;
 
     std::ostringstream os;
     os << m;
@@ -15,7 +17,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Different unit types", "[transfo
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Same unit type", "[transformation/2d]") {
-    math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, double> m;
+    math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, double> m;
 
     std::ostringstream os;
     os << m;
@@ -23,7 +25,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Same unit type", "[transformatio
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Apply transformation with scale", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
     TransformationType::Translation translation{10_px, 20_px};
     TransformationType::Scale scale = math::ratio(8_mm, 1_px);
     TransformationType::Rotation rotation{90.0_deg};
@@ -40,7 +42,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Apply transformation with scale"
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Apply transformation without scale", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
     TransformationType::Translation translation{10_mm, 20_mm};
     TransformationType::Rotation rotation{90.0_deg};
 
@@ -56,7 +58,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Apply transformation without sca
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (with scale)", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
     TransformationType::Translation translation{10_px, 20_px};
     TransformationType::Scale scale = math::ratio(8_mm, 1_px);
     TransformationType::Rotation rotation{90.0_deg};
@@ -67,7 +69,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (with scale)
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (without scale)", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::MilimetersT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
     TransformationType::Translation translation{10_mm, 20_mm};
     TransformationType::Rotation rotation{90.0_deg};
     auto m = TransformationType{translation, rotation};
@@ -77,9 +79,8 @@ TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (without sca
 }
 
 
-
 TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (with scale)", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::MilimetersT, math::types::PixelsT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
     auto m = TransformationType{};
     auto inputPoint = Magnum::Math::Vector2{1_mm, 0_mm};
 
@@ -112,7 +113,7 @@ TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (wit
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (without scale)", "[transformation/2d]") {
-    using TransformationType = math::xy::types::Transformation<math::types::PixelsT, math::types::PixelsT, float>;
+    using TransformationType = math::xy::types::Transformation<math::Pixels::symbol, math::Pixels::symbol, float>;
     auto m = TransformationType{};
     auto inputPoint = Magnum::Math::Vector2{1_px, 0_px};
 
