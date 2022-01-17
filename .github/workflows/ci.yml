@@ -15,8 +15,10 @@ jobs:
       github_sha: ${{ github.sha }}
 
   ci:
+    needs:
+      cmakelists-version
     uses: jgsogo/template-cpp-project/.github/workflows/_build.yml@master
     with:
-      library_name: composite
+      library_name: ${{ github.event.repository.name }}
       library_version: ${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}
       github_sha: ${{ github.sha }}
