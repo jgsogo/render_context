@@ -29,6 +29,7 @@ jobs:
     needs: release-available  # Only run tests if version is available
     with:
       library_name: ${{ github.event.repository.name }}
+      library_version: ${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}
       github_sha: master
 
   create_release:
