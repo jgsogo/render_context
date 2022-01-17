@@ -15,7 +15,7 @@ jobs:
       github_sha: ${{ github.sha }}
 
   ci:
-    uses: jgsogo/render_context/.github/workflows/_build.yml@initial
+    uses: jgsogo/render_context/.github/workflows/_build.yml@master
     with:
       library_name: composite
       library_version: ${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}
