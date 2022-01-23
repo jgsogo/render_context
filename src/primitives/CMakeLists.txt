@@ -6,6 +6,8 @@ add_library(primitives
         arc.hpp
         base_polygon.hpp
         polygon.hpp
+        rectangle.hpp
+        text.hpp
         )
 
 target_link_libraries(primitives

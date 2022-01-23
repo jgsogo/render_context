@@ -15,8 +15,6 @@ namespace primitives {
 
         using RenderContext = typename LineElement<Origin, TDrawList>::RenderContext;
         using Vector2Ori = typename RenderContext::Vector2Ori;
-        using OriginUnits = typename RenderContext::OriginUnits;
-
 
         std::vector<std::shared_ptr<LineElement<Origin, TDrawList>>> lineElements;
 
