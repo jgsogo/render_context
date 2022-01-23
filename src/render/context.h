@@ -39,6 +39,7 @@ namespace render {
 
     template<const char *Origin, typename TDrawList>
     class Context {
+    public:
         using OriginUnits = ::math::types::NamedUnitT<float, Origin>;
         using Vector2Ori = Magnum::Math::Vector2<OriginUnits>;
     public:

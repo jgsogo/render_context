@@ -3,8 +3,7 @@ add_library(primitives
         primitive.hpp
         line_element.hpp
 
-        line.h
-        line.cpp
+        line.hpp
         )
 
 target_link_libraries(primitives
