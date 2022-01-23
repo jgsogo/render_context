@@ -22,6 +22,7 @@ add_executable(unit_tests
 
         test_primitives/test_line.cpp
         test_primitives/test_arc.cpp
+        test_primitives/test_polygon.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2
