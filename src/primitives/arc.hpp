@@ -25,22 +25,22 @@ namespace primitives {
             if (dirNormal) {
                 for (auto angle = start; angle < end; angle += Magnum::Deg{1.f}) {
                     points.emplace_back(Vector2Ori{
-                            center.x() + radius * cos(angle),
-                            center.y() + radius * sin(angle)
+                            OriginUnits{center.x() + radius * cos(angle)},
+                            OriginUnits{center.y() + radius * sin(angle)}
                     });
                 }
             } else {
                 for (auto angle = start; angle >= end; angle -= Magnum::Deg{1.f}) {
                     points.emplace_back(Vector2Ori{
-                            center.x() + radius * cos(angle),
-                            center.y() + radius * sin(angle)
+                            OriginUnits{center.x() + radius * cos(angle)},
+                            OriginUnits{center.y() + radius * sin(angle)}
                     });
                 }
             }
             // And the end-point
             points.emplace_back(Vector2Ori{
-                    center.x() + radius * cos(end),
-                    center.y() + radius * sin(end)
+                    OriginUnits{center.x() + radius * cos(end)},
+                    OriginUnits{center.y() + radius * sin(end)}
             });
             return points;
         }
