@@ -18,12 +18,6 @@ namespace primitives {
         void doRender(typename LineElement<Origin, TDrawList>::RenderContext &render) const override {
             render.drawLine(start, end, color, thickness);
         }
-
-        /*
-        void doRender(Render &render) const override {
-            render.drawLine(start, end, color, (float) thickness);
-        }
-         */
     };
 
 }
