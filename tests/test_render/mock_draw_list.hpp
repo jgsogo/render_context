@@ -12,7 +12,7 @@ namespace mocks {
         std::vector<std::tuple<std::vector<render::Vector2Px>, ImU32, math::Pixels, int>> drawPolyline;
         std::vector<std::tuple<std::vector<render::Vector2Px>, ImU32>> drawPolylineFilled;
         std::vector<std::tuple<render::Vector2Px, float, ImU32, std::string>> drawText;
-        //std::vector<std::tuple<Magnum::GL::Texture2D, Magnum::Math::Range2D<math::Pixels>, std::array<render::Vector2Px, 4>>> drawImage;
+        std::vector<std::tuple<Magnum::GL::Texture2D&, Magnum::Math::Range2D<render::UVCoordinates>, std::array<render::Vector2Px, 4>>> drawImage;
     };
 }
 
@@ -55,8 +55,8 @@ namespace render {
     }
 
     template<>
-    void drawImage<mocks::DrawList>(mocks::DrawList &drawList, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<math::Pixels> uvCoords,
+    void drawImage<mocks::DrawList>(mocks::DrawList &drawList, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                                     std::array<Vector2Px, 4> bbox) {
-        //drawList.drawImage.emplace_back(texture, uvCoords, bbox);
+        drawList.drawImage.emplace_back(texture, uvCoords, bbox);
     }
 }

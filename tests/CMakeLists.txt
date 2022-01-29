@@ -25,6 +25,7 @@ add_executable(unit_tests
         test_primitives/test_polygon.cpp
         test_primitives/test_rectangle.cpp
         test_primitives/test_text.cpp
+        test_primitives/test_image.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2
