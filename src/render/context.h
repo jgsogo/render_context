@@ -10,8 +10,20 @@
 #include "../transformation/transformation.hpp"
 
 namespace render {
-    static constexpr char uv[] = "uv";
-    using UVCoordinates = math::types::NamedUnitT<float, uv>;
+    namespace units {
+        static constexpr char uv[] = "uv";
+    }
+    using UVCoordinates = math::types::NamedUnitT<float, units::uv>;
+
+    namespace units {
+        constexpr UVCoordinates operator "" _uv(long double d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+
+        constexpr UVCoordinates operator "" _uv(unsigned long long d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+    }
 
     using Vector2Px = Magnum::Math::Vector2<math::Pixels>;
 
