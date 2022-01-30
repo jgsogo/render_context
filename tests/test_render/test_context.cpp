@@ -20,6 +20,12 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
 
     auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList} << m;
 
+    SECTION("Transform inverse") {
+        auto oriPoint = context.transformInverse({10_mm, 20_mm});
+        REQUIRE(oriPoint.x() == 0_mm);
+        REQUIRE(oriPoint.y() == 0_mm);
+    }
+
     SECTION("Draw circle") {
         Vector2Mm center{0_mm, 0_mm};
         context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_px);
@@ -47,7 +53,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         rect.bottomLeft() = {0_mm, 20_mm};
         context.drawRectangle(rect, IM_COL32_BLACK, 2_px);
 
-        REQUIRE(drwList.drawRectangle.size() == 0);
+        REQUIRE(drwList.drawRectangle.empty());
         REQUIRE(drwList.drawPolyline.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolyline[0]).size() == 4);
         REQUIRE(std::get<0>(drwList.drawPolyline[0]).at(0) == render::Vector2Px{10_px, 20_px});
@@ -65,7 +71,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         rect.bottomLeft() = {0_mm, 20_mm};
         context.drawRectangleFilled(rect, IM_COL32_BLACK);
 
-        REQUIRE(drwList.drawRectangleFilled.size() == 0);
+        REQUIRE(drwList.drawRectangleFilled.empty());
         REQUIRE(drwList.drawPolylineFilled.size() == 1);
         REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).size() == 4);
         REQUIRE(std::get<0>(drwList.drawPolylineFilled[0]).at(0) == render::Vector2Px{10_px, 20_px});
