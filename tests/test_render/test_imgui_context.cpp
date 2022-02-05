@@ -6,6 +6,7 @@
 #include <Magnum/ImGuiIntegration/Context.hpp>
 
 using namespace math::units;
+using namespace render::units;
 
 /*
  * TODO: Figure out what to test, what value to check... meanwhile, just executing these functions
@@ -74,8 +75,8 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
 
     SECTION("Draw image") {
         Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
-        uvCoords.topRight() = {100_px, 0_px};
-        uvCoords.bottomLeft() = {0_px, 20_px};
+        uvCoords.topRight() = {100_uv, 0_uv};
+        uvCoords.bottomLeft() = {0_uv, 20_uv};
 
         Magnum::Math::Range2D<math::Milimeters> bbox;
         Magnum::GL::Texture2D textureID{Magnum::NoCreate};
