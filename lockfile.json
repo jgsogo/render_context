@@ -68,7 +68,7 @@
     "context": "host"
    },
    "10": {
-    "ref": "libiconv/1.16#b902d00f68f77c3c4f8ac251204fe2ae",
+    "ref": "libiconv/1.16#62d788031fc38bfb1acd0de05085ced4",
     "context": "host"
    },
    "11": {
@@ -95,7 +95,7 @@
     "context": "host"
    },
    "15": {
-    "ref": "catch2/2.13.7#31c8cd08e3c957a9eac8cb1377cf5863",
+    "ref": "catch2/2.13.7#7a02848e5fd2eec6b6e6519c0f9eb89b",
     "context": "host"
    },
    "16": {

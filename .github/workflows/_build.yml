@@ -41,18 +41,11 @@ jobs:
       CONAN_SYSREQUIRES_MODE: enabled
       CONAN_PRINT_RUN_COMMANDS: 1
     steps:
-      - name: Upgrade Git version
-        working-directory: /home/conan
-        run: |
-          sudo apt-get update
-          sudo apt-get install software-properties-common -y
-          sudo add-apt-repository ppa:git-core/ppa -y
-          sudo apt-get update
-          sudo apt-get install git -y
 
       - name: Install jq
         working-directory: /home/conan
         run: |
+          sudo apt-get update
           sudo apt-get install jq -y
 
       - name: Check out repository code

@@ -26,15 +26,19 @@ jobs:
 
   ci:
     uses: jgsogo/template-cpp-project/.github/workflows/_build.yml@master
-    needs: release-available  # Only run tests if version is available
+    needs:
+      - release-available  # Only run tests if version is available
+      - cmakelists-version  # Needed to access dependent variable
     with:
       library_name: ${{ github.event.repository.name }}
+      library_version: ${{ needs.cmakelists-version.outputs.LIBRARY_VERSION }}
       github_sha: master
 
   create_release:
     needs:
       - ci
       - release-available
+      - cmakelists-version  # Needed to access dependent variable
     runs-on: ubuntu-latest
     steps:
       - uses: "marvinpinto/action-automatic-releases@4edd7a5aabb1bc62e6dc99b3302d587bf3134e20"

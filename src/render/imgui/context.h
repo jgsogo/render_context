@@ -55,6 +55,6 @@ namespace render {
     template<>
     void drawImage<ImDrawList, float>(ImDrawList &drawList,
                                       Magnum::GL::Texture2D &texture,
-                                      Magnum::Math::Range2D<float> uvCoords,
+                                      Magnum::Math::Range2D<UVCoordinates> uvCoords,
                                       std::array<Magnum::Math::Vector2<float>, 4> bbox);
 }

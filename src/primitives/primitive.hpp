@@ -1,12 +1,15 @@
 #pragma once
 
+#include "../units/milimeters.hpp"
 #include "../render/context.h"
 
 namespace primitives {
-    using RenderContext = render::imgui::Context<math::types::MilimetersT>;
-    using Vector2Mm = Magnum::Math::Vector2<math::Milimeters>;
 
+    template<const char *Origin, typename TDrawList>
     struct Primitive {
+        using RenderContext = render::Context<Origin, TDrawList>;
+        using Vector2Ori = typename RenderContext::Vector2Ori;
+
         virtual void doRender(RenderContext &render) const = 0;
     };
 

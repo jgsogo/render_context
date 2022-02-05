@@ -82,7 +82,7 @@ namespace render {
     template<>
     void drawImage<ImDrawList, float>(ImDrawList &drawList,
                                       Magnum::GL::Texture2D &texture,
-                                      Magnum::Math::Range2D<float> uvCoords,
+                                      Magnum::Math::Range2D<UVCoordinates> uvCoords,
                                       std::array<Magnum::Math::Vector2<float>, 4> bbox) {
         // Draw translated-rotated image: https://github.com/ocornut/imgui/issues/1982
         ImVec2 uvs[4] = {uvCoords.topLeft(),

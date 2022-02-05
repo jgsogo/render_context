@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <array>
-#include <imgui.h>  // TOOD: Get rid of everything imgui-related
+#include <imgui.h>  // TODO: Get rid of everything imgui-related
 #include <Magnum/Math/Vector2.h>
 #include <Magnum/Math/Range.h>
 #include <Magnum/GL/Texture.h>
@@ -10,6 +10,21 @@
 #include "../transformation/transformation.hpp"
 
 namespace render {
+    namespace units {
+        static constexpr char uv[] = "uv";
+    }
+    using UVCoordinates = math::types::NamedUnitT<float, units::uv>;
+
+    namespace units {
+        constexpr UVCoordinates operator "" _uv(long double d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+
+        constexpr UVCoordinates operator "" _uv(unsigned long long d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+    }
+
     template<typename TDrawList, typename T>
     void drawCircle(TDrawList &drawList, const Magnum::Math::Vector2<T> &center, T radius, ImU32 color, T thickness);
 
@@ -32,12 +47,12 @@ namespace render {
     void drawText(TDrawList &, Magnum::Math::Vector2<T> position_, float fontSize_, ImU32 color, const std::string &content);
 
     template<typename TDrawList, typename T>
-    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<T> uvCoords,
+    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                    std::array<Magnum::Math::Vector2<T>, 4> bbox);
-
 
     template<const char *Origin, typename TDrawList, const char *PixelsSymbol = math::units::px>
     class Context {
+    public:
         using OriginUnits = ::math::types::NamedUnitT<float, Origin>;
         using PixelUnits = ::math::types::NamedUnitT<float, PixelsSymbol>;
         using Vector2Ori = Magnum::Math::Vector2<OriginUnits>;
@@ -64,7 +79,8 @@ namespace render {
         void drawLine(Vector2Ori ini, Vector2Ori end, ImU32 color, PixelUnits thickness) {
             auto iniPoint = _transformation.transformPoint(ini);
             auto endPoint = _transformation.transformPoint(end);
-            render::drawLine<TDrawList>(_drawList, Magnum::Math::Vector2<float>{iniPoint}, Magnum::Math::Vector2<float>{endPoint}, color, static_cast<float>(thickness));
+            render::drawLine<TDrawList>(_drawList, Magnum::Math::Vector2<float>{iniPoint}, Magnum::Math::Vector2<float>{endPoint}, color,
+                                        static_cast<float>(thickness));
         }
 
         void drawRectangle(Magnum::Math::Range2D<OriginUnits> rectangle, ImU32 color, PixelUnits thickness) {
@@ -111,7 +127,7 @@ namespace render {
             render::drawText<TDrawList>(_drawList, pospx, fontSize_, color, content);
         }
 
-        void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<PixelUnits> uvCoords,
+        void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                        Magnum::Math::Range2D<OriginUnits> bbox_) {
             std::array<Magnum::Math::Vector2<float>, 4> bbox = {
                     _transformation.transformPoint(bbox_.topLeft()),
