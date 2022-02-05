@@ -3,6 +3,7 @@
 #include "units/milimeters.hpp"
 #include "units/pixels.hpp"
 #include "render/imgui/context.h"
+#include <Magnum/ImGuiIntegration/Context.hpp>
 
 using namespace math::units;
 
@@ -72,14 +73,14 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
     }
 
     SECTION("Draw image") {
-        Magnum::Math::Range2D<math::Pixels> uvCoords;
+        Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
         uvCoords.topRight() = {100_px, 0_px};
         uvCoords.bottomLeft() = {0_px, 20_px};
 
-        std::array<render::Vector2Px, 4> bbox;
-        // TODO: Load texture and call function
-        //Magnum::GL::Texture2D textureID;
-        //render::imgui::drawImage(*drawlist, textureID, uvCoords, bbox);
+        Magnum::Math::Range2D<math::Milimeters> bbox;
+        Magnum::GL::Texture2D textureID{Magnum::NoCreate};
+
+        context.drawImage(textureID, uvCoords, bbox);
     }
 
     ImGui::DestroyContext();

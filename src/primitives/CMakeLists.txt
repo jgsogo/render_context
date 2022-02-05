@@ -2,9 +2,12 @@
 add_library(primitives
         primitive.hpp
         line_element.hpp
-
-        line.h
-        line.cpp
+        line.hpp
+        arc.hpp
+        base_polygon.hpp
+        polygon.hpp
+        rectangle.hpp
+        text.hpp
         )
 
 target_link_libraries(primitives
