@@ -68,6 +68,10 @@ namespace render {
             return ctxt;
         }
 
+        Vector2Ori transformInverse(const Magnum::Math::Vector2<math::Pixels> &in) {
+            return _transformation.transformInverse(in);
+        }
+
         /* Draw functions */
 
         void drawCircle(Vector2Ori center, OriginUnits radius, ImU32 color, PixelUnits thickness) {
