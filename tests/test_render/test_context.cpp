@@ -8,6 +8,7 @@
 #include "mock_draw_list.hpp"
 
 using namespace math::units;
+using namespace render::units;
 using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 
 TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
@@ -115,15 +116,36 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     }
 
     SECTION("Draw image") {
-        Magnum::Math::Range2D<math::Pixels> uvCoords;
-        uvCoords.topRight() = {100_px, 0_px};
-        uvCoords.bottomLeft() = {0_px, 20_px};
+        Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
+        uvCoords.topRight() = {100_uv, 0_uv};
+        uvCoords.bottomLeft() = {0_uv, 20_uv};
 
-        std::array<render::Vector2Px, 4> bbox;
+        Magnum::Math::Range2D<math::Milimeters> bbox;
         // TODO: Load texture and call function
-        //Magnum::GL::Texture2D textureID;
-        //render::imgui::drawImage(*drawlist, textureID, uvCoords, bbox);
-
-        // TODO: Implement some checks
+        Magnum::GL::Texture2D textureID{Magnum::NoCreate};
     }
+
+    SECTION("Draw image") {
+        Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
+        uvCoords.topRight() = {100_uv, 0_uv};
+        uvCoords.bottomLeft() = {0_uv, 20_uv};
+
+        Magnum::Math::Range2D<math::Milimeters> bbox;
+        bbox.topRight() = {0_mm, 0_mm};
+        bbox.bottomLeft() = {0_mm, 0_mm};
+        Magnum::GL::Texture2D textureID{Magnum::NoCreate};
+
+        context.drawImage(textureID, uvCoords, bbox);
+
+        REQUIRE(drwList.drawImage.size() == 1);
+        //REQUIRE(std::get<0>(drwList.drawImage[0]) == textureID);
+        REQUIRE(std::get<1>(drwList.drawImage[0]) == uvCoords);
+        REQUIRE(std::get<2>(drwList.drawImage[0]) == std::array<render::Vector2Px, 4>{
+                render::Vector2Px{10_px, 20_px},
+                render::Vector2Px{10_px, 20_px},
+                render::Vector2Px{10_px, 20_px},
+                render::Vector2Px{10_px, 20_px}
+        });
+    }
+
 }

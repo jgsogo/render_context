@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <array>
-#include <imgui.h>  // TOOD: Get rid of everything imgui-related
+#include <imgui.h>  // TODO: Get rid of everything imgui-related
 #include <Magnum/Math/Vector2.h>
 #include <Magnum/Math/Range.h>
 #include <Magnum/GL/Texture.h>
@@ -10,6 +10,21 @@
 #include "../transformation/transformation.hpp"
 
 namespace render {
+    namespace units {
+        static constexpr char uv[] = "uv";
+    }
+    using UVCoordinates = math::types::NamedUnitT<float, units::uv>;
+
+    namespace units {
+        constexpr UVCoordinates operator "" _uv(long double d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+
+        constexpr UVCoordinates operator "" _uv(unsigned long long d) {
+            return UVCoordinates{static_cast<float>(d)};
+        }
+    }
+
     using Vector2Px = Magnum::Math::Vector2<math::Pixels>;
 
     template<typename TDrawList>
@@ -34,11 +49,12 @@ namespace render {
     void drawText(TDrawList &, Vector2Px position_, float fontSize_, ImU32 color, const std::string &content);
 
     template<typename TDrawList>
-    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<math::Pixels> uvCoords,
+    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                    std::array<Vector2Px, 4> bbox);
 
     template<const char *Origin, typename TDrawList>
     class Context {
+    public:
         using OriginUnits = ::math::types::NamedUnitT<float, Origin>;
         using Vector2Ori = Magnum::Math::Vector2<OriginUnits>;
     public:
@@ -111,7 +127,7 @@ namespace render {
             render::drawText<TDrawList>(_drawList, pospx, fontSize_, color, content);
         }
 
-        void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<math::Pixels> uvCoords,
+        void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                        Magnum::Math::Range2D<OriginUnits> bbox_) {
             std::array<Vector2Px, 4> bbox = {
                     _transformation.transformPoint(bbox_.topLeft()),
