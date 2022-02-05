@@ -31,6 +31,12 @@ namespace math::xy::types {
                 return Magnum::Math::Vector2<TargetUnits>{_transformation.transformPoint(translatetyped)};
             }
 
+            Magnum::Math::Vector2<OriginUnits> transformInverse(const Magnum::Math::Vector2<TargetUnits> &in) const {
+                auto translatetyped = Magnum::Math::Vector2<T>{in};
+                // TODO: We don´t want to compute inverted every time
+                return Magnum::Math::Vector2<OriginUnits>{_transformation.inverted().transformPoint(translatetyped)};
+            }
+
             /* Transform magnitude taking only scale into account */
             TargetUnits transformMagnitude(const OriginUnits &in) {
                 return TargetUnits{static_cast<T>(in) * _transformation.uniformScaling()};

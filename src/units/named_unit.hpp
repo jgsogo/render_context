@@ -47,10 +47,6 @@ namespace math::types {
         //constexpr /*implicit*/ NamedUnitT(_impl::NamedUnitT<T> other) noexcept
         //        : _impl::NamedUnitT<T>(other) {}
 
-        /** @brief Copy constructor */
-        //constexpr /*implicit*/ NamedUnitT(Magnum::Math::Unit<_impl::NamedUnitT, T> other) noexcept
-        //        : _impl::NamedUnitT<T>(other) {}
-
         /* Operators */
         friend std::ostream &operator<<(std::ostream &os, const NamedUnitT &mms) {
             os << static_cast<T>(mms) << " " << symbol;
