@@ -4,10 +4,10 @@ namespace render {
 
     template<>
     void drawCircle<ImDrawList, float>(ImDrawList &drawList,
-                                  const Magnum::Math::Vector2<float> &center,
-                                  float radius,
-                                  ImU32 color,
-                                  float thickness) {
+                                       const Magnum::Math::Vector2<float> &center,
+                                       float radius,
+                                       ImU32 color,
+                                       float thickness) {
         drawList.AddCircle(center, radius, color, 0, thickness);
     }
 
@@ -79,16 +79,17 @@ namespace render {
          */
     }
 
+
     template<>
     void drawImage<ImDrawList, float>(ImDrawList &drawList,
                                       Magnum::GL::Texture2D &texture,
                                       Magnum::Math::Range2D<UVCoordinates> uvCoords,
                                       std::array<Magnum::Math::Vector2<float>, 4> bbox) {
         // Draw translated-rotated image: https://github.com/ocornut/imgui/issues/1982
-        ImVec2 uvs[4] = {uvCoords.topLeft(),
-                         uvCoords.topRight(),
-                         uvCoords.bottomRight(),
-                         uvCoords.bottomLeft()
+        ImVec2 uvs[4] = {Magnum::Math::Vector2<float>{uvCoords.topLeft()},
+                         Magnum::Math::Vector2<float>{uvCoords.topRight()},
+                         Magnum::Math::Vector2<float>{uvCoords.bottomRight()},
+                         Magnum::Math::Vector2<float>{uvCoords.bottomLeft()}
         };
         drawList.AddImageQuad(&texture,
                               bbox[0], bbox[1], bbox[2], bbox[3],

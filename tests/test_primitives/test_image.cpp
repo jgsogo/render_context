@@ -24,11 +24,11 @@ TEST_CASE("test_primitives/test_image | Draw image", "[render/mock]") {
         REQUIRE(drwList.drawImage.size() == 1);
 
         REQUIRE(std::get<1>(drwList.drawImage[0]) == image.texture.uvCoordinates);
-        REQUIRE(std::get<2>(drwList.drawImage[0]) == std::array<render::Vector2Px, 4>{
-                render::Vector2Px{0_px, 0_px},
-                render::Vector2Px{0_px, 0_px},
-                render::Vector2Px{0_px, 0_px},
-                render::Vector2Px{0_px, 0_px}
+        REQUIRE(std::get<2>(drwList.drawImage[0]) == std::array<Magnum::Math::Vector2<float>, 4>{
+                Magnum::Math::Vector2{0.f, 0.f},
+                Magnum::Math::Vector2{0.f, 0.f},
+                Magnum::Math::Vector2{0.f, 0.f},
+                Magnum::Math::Vector2{0.f, 0.f}
         });
     }
 

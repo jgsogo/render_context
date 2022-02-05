@@ -146,11 +146,11 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
         REQUIRE(drwList.drawImage.size() == 1);
         //REQUIRE(std::get<0>(drwList.drawImage[0]) == textureID);
         REQUIRE(std::get<1>(drwList.drawImage[0]) == uvCoords);
-        REQUIRE(std::get<2>(drwList.drawImage[0]) == std::array<render::Vector2Px, 4>{
-                render::Vector2Px{10_px, 20_px},
-                render::Vector2Px{10_px, 20_px},
-                render::Vector2Px{10_px, 20_px},
-                render::Vector2Px{10_px, 20_px}
+        REQUIRE(std::get<2>(drwList.drawImage[0]) == std::array<Magnum::Math::Vector2<float>, 4>{
+                Magnum::Math::Vector2{10.f, 20.f},
+                Magnum::Math::Vector2{10.f, 20.f},
+                Magnum::Math::Vector2{10.f, 20.f},
+                Magnum::Math::Vector2{10.f, 20.f}
         });
     }
 

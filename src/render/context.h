@@ -13,6 +13,7 @@ namespace render {
     namespace units {
         static constexpr char uv[] = "uv";
     }
+
     using UVCoordinates = math::types::NamedUnitT<float, units::uv>;
 
     namespace units {
@@ -134,10 +135,10 @@ namespace render {
         void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                        Magnum::Math::Range2D<OriginUnits> bbox_) {
             std::array<Magnum::Math::Vector2<float>, 4> bbox = {
-                    _transformation.transformPoint(bbox_.topLeft()),
-                    _transformation.transformPoint(bbox_.topRight()),
-                    _transformation.transformPoint(bbox_.bottomRight()),
-                    _transformation.transformPoint(bbox_.bottomLeft())
+                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.topLeft())},
+                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.topRight())},
+                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.bottomRight())},
+                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.bottomLeft())}
             };
             render::drawImage<TDrawList>(_drawList, texture, uvCoords, bbox);
         }
