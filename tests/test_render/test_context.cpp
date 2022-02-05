@@ -22,7 +22,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList} << m;
 
     SECTION("Transform inverse") {
-        auto oriPoint = context.transformInverse({10_mm, 20_mm});
+        auto oriPoint = context.transformInverse({10_px, 20_px});
         REQUIRE(oriPoint.x() == 0_mm);
         REQUIRE(oriPoint.y() == 0_mm);
     }
