@@ -78,22 +78,4 @@ namespace render {
         drawList.AddText(ImGui::GetFont(), fontSize, position, color, content.c_str());
          */
     }
-
-
-    template<>
-    void drawImage<ImDrawList, float>(ImDrawList &drawList,
-                                      Magnum::GL::Texture2D &texture,
-                                      Magnum::Math::Range2D<UVCoordinates> uvCoords,
-                                      std::array<Magnum::Math::Vector2<float>, 4> bbox) {
-        // Draw translated-rotated image: https://github.com/ocornut/imgui/issues/1982
-        ImVec2 uvs[4] = {Magnum::Math::Vector2<float>{uvCoords.topLeft()},
-                         Magnum::Math::Vector2<float>{uvCoords.topRight()},
-                         Magnum::Math::Vector2<float>{uvCoords.bottomRight()},
-                         Magnum::Math::Vector2<float>{uvCoords.bottomLeft()}
-        };
-        drawList.AddImageQuad(&texture,
-                              bbox[0], bbox[1], bbox[2], bbox[3],
-                              uvs[0], uvs[1], uvs[2], uvs[3],
-                              IM_COL32_WHITE);
-    }
 }
