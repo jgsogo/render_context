@@ -19,8 +19,14 @@ add_executable(unit_tests
 
         test_render/test_imgui_context.cpp
         test_render/test_imgui_functions.cpp
-
         test_render/test_context.cpp
+
+        test_primitives/test_line.cpp
+        test_primitives/test_arc.cpp
+        test_primitives/test_polygon.cpp
+        test_primitives/test_rectangle.cpp
+        test_primitives/test_text.cpp
+        test_primitives/test_image.cpp
         )
 target_link_libraries(unit_tests
         Catch2::Catch2
