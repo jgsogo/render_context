@@ -8,6 +8,7 @@
 #include "mock_draw_list.hpp"
 
 using namespace math::units;
+using namespace render::units;
 using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 
 TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
@@ -116,8 +117,8 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
 
     SECTION("Draw image") {
         Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
-        uvCoords.topRight() = {100_px, 0_px};
-        uvCoords.bottomLeft() = {0_px, 20_px};
+        uvCoords.topRight() = {100_uv, 0_uv};
+        uvCoords.bottomLeft() = {0_uv, 20_uv};
 
         Magnum::Math::Range2D<math::Milimeters> bbox;
         // TODO: Load texture and call function
@@ -126,8 +127,8 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
 
     SECTION("Draw image") {
         Magnum::Math::Range2D<render::UVCoordinates> uvCoords;
-        uvCoords.topRight() = {100_px, 0_px};
-        uvCoords.bottomLeft() = {0_px, 20_px};
+        uvCoords.topRight() = {100_uv, 0_uv};
+        uvCoords.bottomLeft() = {0_uv, 20_uv};
 
         Magnum::Math::Range2D<math::Milimeters> bbox;
         bbox.topRight() = {0_mm, 0_mm};

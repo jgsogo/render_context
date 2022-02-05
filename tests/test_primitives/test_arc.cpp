@@ -35,8 +35,8 @@ TEST_CASE("test_primitives/test_arc | Draw a arc", "[render/mock]") {
         primitives::LineElement<math::Milimeters::symbol, mocks::DrawList> &lineElement = arc;
         auto polyline = lineElement.getPolyline();
         REQUIRE(polyline.size() == 11);
-        REQUIRE(polyline.at(0) == Magnum::Math::Vector2{math::Milimeters{20_mm * cos(10_deg)}, math::Milimeters{20_mm * sin(10_deg)}});
-        REQUIRE(polyline.at(10) == Magnum::Math::Vector2{math::Milimeters{20_mm * cos(20_deg)}, math::Milimeters{20_mm * sin(20_deg)}});
+        REQUIRE(polyline.at(0) == Magnum::Math::Vector2<math::Milimeters>{20_mm * cos(10_deg), 20_mm * sin(10_deg)});
+        REQUIRE(polyline.at(10) == Magnum::Math::Vector2<math::Milimeters>{20_mm * cos(20_deg), 20_mm * sin(20_deg)});
         //REQUIRE(polyline.at(1) == line.end);
     }
 }

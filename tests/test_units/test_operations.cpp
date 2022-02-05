@@ -2,6 +2,7 @@
 #include <sstream>
 #include "catch2/catch.hpp"
 #include "units/milimeters.hpp"
+#include "units/pixels.hpp"
 
 using namespace math::units;
 
