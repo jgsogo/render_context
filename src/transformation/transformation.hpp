@@ -118,6 +118,8 @@ namespace math::xy::types {
                          _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation, _scale);
         }
 
+        Transformation(const Translation &t, const Rotation &r, const Scale &s) : Transformation{t, s, r} {}
+
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
             os << "[" << symbolOrigin << " > " << symbolTarget << "]";
             os << " scale(" << tf._scale << "),";
