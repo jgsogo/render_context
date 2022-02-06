@@ -37,8 +37,3 @@ target_link_libraries(unit_tests
 # are made available to CTest.
 include(Catch)
 catch_discover_tests(unit_tests)
-
-install(
-        TARGETS unit_tests
-        RUNTIME DESTINATION bin
-)
