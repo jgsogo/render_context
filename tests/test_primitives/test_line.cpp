@@ -22,10 +22,10 @@ TEST_CASE("test_primitives/test_line | Draw a line", "[render/mock]") {
 
         primitive.doRender(context);
         REQUIRE(drwList.drawLine.size() == 1);
-        REQUIRE(std::get<0>(drwList.drawLine[0]) == Magnum::Math::Vector2{0.f, 0.f});
-        REQUIRE(std::get<1>(drwList.drawLine[0]) == Magnum::Math::Vector2{10.f, 0.f});
+        REQUIRE(std::get<0>(drwList.drawLine[0]) == Magnum::Math::Vector2{0_px, 0_px});
+        REQUIRE(std::get<1>(drwList.drawLine[0]) == Magnum::Math::Vector2{10_px, 0_px});
         REQUIRE(std::get<2>(drwList.drawLine[0]) == IM_COL32_BLACK);
-        REQUIRE(std::get<3>(drwList.drawLine[0]) == 23.f);
+        REQUIRE(std::get<3>(drwList.drawLine[0]) == 23_px);
     }
 
     SECTION("Polyline") {

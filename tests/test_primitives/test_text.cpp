@@ -25,7 +25,7 @@ TEST_CASE("test_primitives/test_text | Draw text", "[render/mock]") {
         REQUIRE(drwList.drawLine.empty());
         REQUIRE(drwList.drawText.size() == 1);
 
-        REQUIRE(std::get<0>(drwList.drawText[0]) == Magnum::Math::Vector2{10.f, 20.f});
+        REQUIRE(std::get<0>(drwList.drawText[0]) == Magnum::Math::Vector2{10_px, 20_px});
         REQUIRE(std::get<1>(drwList.drawText[0]) == 23.f);
         REQUIRE(std::get<2>(drwList.drawText[0]) == IM_COL32_BLACK);
         REQUIRE(std::get<3>(drwList.drawText[0]) == "content");
