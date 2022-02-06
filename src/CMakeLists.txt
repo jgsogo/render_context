@@ -17,10 +17,3 @@ target_link_libraries(${PROJECT_NAME}
         render_imgui
         primitives
         )
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
-
-install(TARGETS ${PROJECT_NAME}
-        PUBLIC_HEADER DESTINATION include
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
