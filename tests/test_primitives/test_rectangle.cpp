@@ -42,7 +42,7 @@ TEST_CASE("test_primitives/test_rectangle | Draw a rectangle", "[render/mock]") 
 
         REQUIRE(std::get<0>(drwList.drawPolyline[0]).size() == 4);
         REQUIRE(std::get<1>(drwList.drawPolyline[0]) == IM_COL32(255, 0, 0, 255));
-        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 23.f);
+        REQUIRE(std::get<2>(drwList.drawPolyline[0]) == 23_px);
         REQUIRE(std::get<3>(drwList.drawPolyline[0]) == ImDrawFlags_Closed);
     }
 

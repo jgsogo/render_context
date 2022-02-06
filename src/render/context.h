@@ -8,6 +8,7 @@
 #include <Magnum/GL/Texture.h>
 
 #include "../transformation/transformation.hpp"
+#include "../units/pixels.hpp"
 
 namespace render {
     namespace units {
@@ -51,7 +52,7 @@ namespace render {
     void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, const Magnum::Math::Range2D<UVCoordinates> &uvCoords,
                    const std::array<Magnum::Math::Vector2<T>, 4> &bbox);
 
-    template<const char *Origin, typename TDrawList, const char *PixelsSymbol = math::units::px>
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol = ::math::units::px>
     class Context {
     public:
         using OriginUnits = ::math::types::NamedUnitT<float, Origin>;
@@ -83,14 +84,13 @@ namespace render {
         void drawCircle(Vector2Ori center, OriginUnits radius, ImU32 color, PixelUnits thickness) {
             auto rpx = _transformation.transformMagnitude(radius);
             auto centerpx = _transformation.transformPoint(center);
-            render::drawCircle<TDrawList>(_drawList, Magnum::Math::Vector2<float>{centerpx}, static_cast<float>(rpx), color, static_cast<float>(thickness));
+            render::drawCircle<TDrawList>(_drawList, centerpx, rpx, color, thickness);
         }
 
         void drawLine(Vector2Ori ini, Vector2Ori end, ImU32 color, PixelUnits thickness) {
             auto iniPoint = _transformation.transformPoint(ini);
             auto endPoint = _transformation.transformPoint(end);
-            render::drawLine<TDrawList>(_drawList, Magnum::Math::Vector2<float>{iniPoint}, Magnum::Math::Vector2<float>{endPoint}, color,
-                                        static_cast<float>(thickness));
+            render::drawLine<TDrawList>(_drawList, iniPoint, endPoint, color, thickness);
         }
 
         void drawRectangle(Magnum::Math::Range2D<OriginUnits> rectangle, ImU32 color, PixelUnits thickness) {
@@ -116,34 +116,34 @@ namespace render {
         }
 
         void drawPolyline(std::vector<Vector2Ori> points_, ImU32 color, PixelUnits thickness, int flags) {
-            std::vector<Magnum::Math::Vector2<float>> points;
+            std::vector<Vector2Px> points;
             std::transform(points_.begin(), points_.end(), std::back_inserter(points), [&](auto &item) {
-                return Magnum::Math::Vector2<float>{_transformation.transformPoint(item)};
+                return _transformation.transformPoint(item);
             });
-            render::drawPolyline<TDrawList>(_drawList, points, color, static_cast<float>(thickness), flags);
+            render::drawPolyline<TDrawList>(_drawList, points, color, thickness, flags);
         }
 
         void drawPolylineFilled(std::vector<Vector2Ori> points_, ImU32 color) {
-            std::vector<Magnum::Math::Vector2<float>> points;
+            std::vector<Vector2Px> points;
             std::transform(points_.begin(), points_.end(), std::back_inserter(points), [&](auto &item) {
-                return Magnum::Math::Vector2<float>{_transformation.transformPoint(item)};
+                return _transformation.transformPoint(item);
             });
             render::drawPolylineFilled<TDrawList>(_drawList, points, color);
         }
 
         void drawText(Vector2Ori position, float fontSize_, ImU32 color, const std::string &content) {
             // TODO: Center text in coordinates?
-            auto pospx = Magnum::Math::Vector2<float>{_transformation.transformPoint(position)};
+            auto pospx = _transformation.transformPoint(position);
             render::drawText<TDrawList>(_drawList, pospx, fontSize_, color, content);
         }
 
         void drawImage(Magnum::GL::Texture2D &texture, Magnum::Math::Range2D<UVCoordinates> uvCoords,
                        Magnum::Math::Range2D<OriginUnits> bbox_) {
-            std::array<Magnum::Math::Vector2<float>, 4> bbox = {
-                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.topLeft())},
-                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.topRight())},
-                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.bottomRight())},
-                    Magnum::Math::Vector2<float>{_transformation.transformPoint(bbox_.bottomLeft())}
+            std::array<Vector2Px, 4> bbox = {
+                    _transformation.transformPoint(bbox_.topLeft()),
+                    _transformation.transformPoint(bbox_.topRight()),
+                    _transformation.transformPoint(bbox_.bottomRight()),
+                    _transformation.transformPoint(bbox_.bottomLeft())
             };
             render::drawImage<TDrawList>(_drawList, texture, uvCoords, bbox);
         }

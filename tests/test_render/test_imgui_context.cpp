@@ -7,6 +7,7 @@
 
 using namespace math::units;
 using namespace render::units;
+using namespace render::imgui::units;
 
 /*
  * TODO: Figure out what to test, what value to check... meanwhile, just executing these functions
@@ -31,20 +32,20 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
 
     SECTION("Draw circle") {
         Vector2Mm center{0_mm, 0_mm};
-        context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_px);
+        context.drawCircle(center, 10_mm, IM_COL32_BLACK, 2_impx);
     }
 
     SECTION("Draw line") {
         Vector2Mm start{0_mm, 0_mm};
         Vector2Mm end{0_mm, 0_mm};
-        context.drawLine(start, end, IM_COL32_BLACK, 2_px);
+        context.drawLine(start, end, IM_COL32_BLACK, 2_impx);
     }
 
     SECTION("Draw rectangle") {
         Magnum::Math::Range2D<math::Milimeters> rect;
         rect.topRight() = {100_mm, 0_mm};
         rect.bottomLeft() = {0_mm, 20_mm};
-        context.drawRectangle(rect, IM_COL32_BLACK, 2_px);
+        context.drawRectangle(rect, IM_COL32_BLACK, 2_impx);
     }
 
     SECTION("Draw rectangle filled") {
@@ -58,7 +59,7 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
         std::vector<Vector2Mm> points;
         points.emplace_back(0_mm, 0_mm);
         points.emplace_back(10_mm, 10_mm);
-        context.drawPolyline(points, IM_COL32_BLACK, 2_px, 0);
+        context.drawPolyline(points, IM_COL32_BLACK, 2_impx, 0);
     }
 
     SECTION("Draw polyline filled") {
