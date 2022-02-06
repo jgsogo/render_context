@@ -1,7 +1,6 @@
 
 add_library(primitives INTERFACE)
 set_target_properties(primitives PROPERTIES
-        LINKER_LANGUAGE CXX
         PUBLIC_HEADER "arc.hpp;base_polygon.hpp;image.hpp;line.hpp;line_element.hpp;polygon.hpp;primitive.hpp;rectangle.hpp;text.hpp"
         )
 

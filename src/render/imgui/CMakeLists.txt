@@ -3,7 +3,6 @@ find_package(imgui REQUIRED)
 
 add_library(render_imgui INTERFACE)
 set_target_properties(render_imgui PROPERTIES
-        LINKER_LANGUAGE CXX
         PUBLIC_HEADER "context.h;imconfig.h;pixels.hpp"
         )
 target_link_libraries(render_imgui

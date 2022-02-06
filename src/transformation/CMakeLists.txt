@@ -1,7 +1,6 @@
 
 add_library(transformation INTERFACE)
 set_target_properties(transformation PROPERTIES
-        LINKER_LANGUAGE CXX
         PUBLIC_HEADER "transformation.hpp"
         )
 target_link_libraries(transformation

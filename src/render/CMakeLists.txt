@@ -4,7 +4,6 @@ find_package(imgui REQUIRED)
 
 add_library(render INTERFACE)
 set_target_properties(render PROPERTIES
-        LINKER_LANGUAGE CXX
         PUBLIC_HEADER "context.h"
         )
 target_link_libraries(render

@@ -1,7 +1,6 @@
 
 add_library(units INTERFACE)
 set_target_properties(units PROPERTIES
-        LINKER_LANGUAGE CXX
         PUBLIC_HEADER "degrees.hpp;milimeters.hpp;named_unit.hpp;pixels.hpp;ratio.hpp"
         )
 target_link_libraries(units
