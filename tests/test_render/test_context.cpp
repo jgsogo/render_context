@@ -14,12 +14,12 @@ using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     mocks::DrawList drwList;
 
-    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
-    TransformationType::Translation translation{10_mm, 20_mm};
+    using TransformationType = math::xy::types::Transformation<math::Pixels::symbol, math::Pixels::symbol, float>;
+    TransformationType::Translation translation{10_px, 20_px};
     TransformationType::Rotation rotation{0_deg};
-    auto m = TransformationType{translation, rotation};
+    auto scale = math::ratio(1_mm, 1_px);
 
-    auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList} << m;
+    auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList, 0, translation, rotation, scale};
 
     SECTION("Transform inverse") {
         auto oriPoint = context.transformInverse({10_px, 20_px});

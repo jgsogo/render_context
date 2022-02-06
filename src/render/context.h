@@ -48,8 +48,8 @@ namespace render {
     void drawText(TDrawList &, Magnum::Math::Vector2<T> position_, float fontSize_, ImU32 color, const std::string &content);
 
     template<typename TDrawList, typename T>
-    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, const Magnum::Math::Range2D<UVCoordinates>& uvCoords,
-                   const std::array<Magnum::Math::Vector2<T>, 4>& bbox);
+    void drawImage(TDrawList &, Magnum::GL::Texture2D &texture, const Magnum::Math::Range2D<UVCoordinates> &uvCoords,
+                   const std::array<Magnum::Math::Vector2<T>, 4> &bbox);
 
     template<const char *Origin, typename TDrawList, const char *PixelsSymbol = math::units::px>
     class Context {
@@ -60,6 +60,11 @@ namespace render {
         using Vector2Px = Magnum::Math::Vector2<PixelUnits>;
     public:
         explicit Context(TDrawList &dl, int lodLevel = 0) : _drawList{dl}, _lod{lodLevel} {
+        }
+
+        template<typename ...Args>
+        explicit Context(TDrawList &dl, int lodLevel = 0, Args &&... args)
+                : _drawList{dl}, _lod{lodLevel}, _transformation{std::forward<Args>(args)...} {
         }
 
         template<const char *Other>
