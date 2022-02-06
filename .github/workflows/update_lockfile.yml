@@ -1,0 +1,69 @@
+---
+name: "(Manual) Update lockfile"
+
+on: 
+  workflow_dispatch:
+  schedule:
+    # Trigger every sunday at 9:00
+    - cron: "0 9 * * 0"
+
+env:
+  CONAN_USER_HOME: /home/conan
+
+defaults:
+  run:
+    working-directory: /home/conan/library
+
+jobs:
+  update_lockfile:
+    runs-on: ubuntu-latest
+    container:
+      image: conanio/gcc10:1.43.3
+    env:
+      CONAN_USER_HOME: /home/conan
+      CONAN_SYSREQUIRES_MODE: enabled
+      CONAN_PRINT_RUN_COMMANDS: 1
+    steps:
+
+      - name: Check out repository code
+        uses: rodrigorodriguescosta/checkout@1d64c0a4a695ff5edb95596c11b430050668c83f  # FIXME: Not using actions/checkout just because of 'https://github.com/actions/checkout/pull/388'
+        with:
+          path: /home/conan/library
+
+      - name: Configure Conan
+        run: |
+          conan config set general.revisions_enabled=1
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan --version
+          conan config home
+
+      - name: Connect to remote
+        run: |
+          conan remote add sogo https://sogo.jfrog.io/artifactory/api/conan/conan-center
+
+      - name: Prepare deps
+        run: |
+          cp -r .conan/profiles /home/conan/.conan
+          conan profile list
+
+      - name: Update deps in lockfile
+        run: |
+          conan lock create --name=composite --version=0.1 --base --lockfile-out lockfile.json --build --profile:host=.conan/profiles/cpp20 --profile:build=default conanfile.txt
+          git diff
+
+      - uses: tibdex/github-app-token@7ce9ffdcdeb2ba82b01b51d6584a6a85872336d4
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_RECIPES_APP_ID }}
+          private_key: ${{ secrets.APP_RECIPES_PRIVATE_KEY }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@dcd5fd746d53dd8de555c0f10bca6c35628be47a
+        with:
+          path: /home/conan/library
+          commit-message: "[${{ github.event.repository.name }}] Update lockfile"
+          branch: "update-lockfile"
+          title: "[${{ github.event.repository.name }}] Update lockfile"
+          body: "Recreated base lockfile"
+          reviewers: "jgsogo"
+          token: ${{ steps.generate-token.outputs.token }}
