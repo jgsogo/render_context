@@ -13,9 +13,9 @@ namespace primitives {
         Magnum::GL::Texture2D &textureID;
     };
 
-    template<const char *Origin, typename TDrawList>
-    struct Image : Primitive<Origin, TDrawList> {
-        using RenderContext = typename Primitive<Origin, TDrawList>::RenderContext;
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
+    struct Image : Primitive<Origin, TDrawList, PixelsSymbol> {
+        using RenderContext = typename Primitive<Origin, TDrawList, PixelsSymbol>::RenderContext;
         using OriginUnits = typename RenderContext::OriginUnits;
         using Vector2Ori = typename RenderContext::Vector2Ori;
 

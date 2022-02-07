@@ -8,7 +8,7 @@
 using namespace math::units;
 
 TEST_CASE("test_primitives/test_rectangle | Draw a rectangle", "[render/mock]") {
-    auto poly = primitives::Rectangle<math::Milimeters::symbol, mocks::DrawList>{};
+    auto poly = primitives::Rectangle<math::Milimeters::symbol, mocks::DrawList, math::units::px>{};
     poly.filled = true;
     poly.fillColor = IM_COL32_BLACK;
     poly.border = true;
@@ -19,10 +19,10 @@ TEST_CASE("test_primitives/test_rectangle | Draw a rectangle", "[render/mock]") 
             {20_mm, 10_mm}
     };
 
-    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList> &primitive = poly;
+    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList, math::units::px> &primitive = poly;
     SECTION("Draw filled") {
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         primitive.doRender(context);
         REQUIRE(drwList.drawPolylineFilled.size() == 1);
@@ -34,7 +34,7 @@ TEST_CASE("test_primitives/test_rectangle | Draw a rectangle", "[render/mock]") 
     SECTION("Draw not filled") {
         poly.filled = false;
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         primitive.doRender(context);
         REQUIRE(drwList.drawLine.empty());

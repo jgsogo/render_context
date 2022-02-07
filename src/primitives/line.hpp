@@ -4,18 +4,21 @@
 
 namespace primitives {
 
-    template<const char *Origin, typename TDrawList>
-    struct Line : LineElement<Origin, TDrawList> {
-        ImU32 color = IM_COL32_WHITE;
-        math::Pixels thickness;
-        typename LineElement<Origin, TDrawList>::Vector2Ori start;
-        typename LineElement<Origin, TDrawList>::Vector2Ori end;
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
+    struct Line : LineElement<Origin, TDrawList, PixelsSymbol> {
+        using RenderContext = typename LineElement<Origin, TDrawList, PixelsSymbol>::RenderContext;
+        using PixelUnits = typename RenderContext::PixelUnits;
 
-        [[nodiscard]] std::vector<typename LineElement<Origin, TDrawList>::Vector2Ori> getPolyline() const override {
+        ImU32 color = IM_COL32_WHITE;
+        PixelUnits thickness;
+        typename LineElement<Origin, TDrawList, PixelsSymbol>::Vector2Ori start;
+        typename LineElement<Origin, TDrawList, PixelsSymbol>::Vector2Ori end;
+
+        [[nodiscard]] std::vector<typename LineElement<Origin, TDrawList, PixelsSymbol>::Vector2Ori> getPolyline() const override {
             return {start, end};
         }
 
-        void doRender(typename LineElement<Origin, TDrawList>::RenderContext &render) const override {
+        void doRender(RenderContext &render) const override {
             render.drawLine(start, end, color, thickness);
         }
     };
