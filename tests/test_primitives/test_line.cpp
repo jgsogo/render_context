@@ -9,16 +9,16 @@ using namespace math::units;
 using Vector2Mm = Magnum::Math::Vector2<math::types::MilimetersT<float>>;
 
 TEST_CASE("test_primitives/test_line | Draw a line", "[render/mock]") {
-    auto line = primitives::Line<math::Milimeters::symbol, mocks::DrawList>{};
+    auto line = primitives::Line<math::Milimeters::symbol, mocks::DrawList, math::units::px>{};
     line.color = IM_COL32_BLACK;
     line.thickness = 23_px;
     line.start = {0_mm, 0_mm};
     line.end = {10_mm, 0_mm};
 
-    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList> &primitive = line;
+    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList, math::units::px> &primitive = line;
     SECTION("Draw") {
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         primitive.doRender(context);
         REQUIRE(drwList.drawLine.size() == 1);
@@ -29,7 +29,7 @@ TEST_CASE("test_primitives/test_line | Draw a line", "[render/mock]") {
     }
 
     SECTION("Polyline") {
-        primitives::LineElement<math::Milimeters::symbol, mocks::DrawList> &lineElement = line;
+        primitives::LineElement<math::Milimeters::symbol, mocks::DrawList, math::units::px> &lineElement = line;
         auto polyline = lineElement.getPolyline();
         REQUIRE(polyline.size() == 2);
         REQUIRE(polyline.at(0) == line.start);

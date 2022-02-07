@@ -10,7 +10,7 @@ using namespace render::units;
 
 TEST_CASE("test_primitives/test_image | Draw image", "[render/mock]") {
     Magnum::GL::Texture2D textureID{Magnum::NoCreate};
-    auto image = primitives::Image<math::Milimeters::symbol, mocks::DrawList>{textureID};
+    auto image = primitives::Image<math::Milimeters::symbol, mocks::DrawList, math::units::px>{textureID};
     image.texture.uvCoordinates.topRight() = {0_uv, 0_uv};
     image.texture.uvCoordinates.bottomLeft() = {10_uv, 10_uv};
     image.bbox.topRight() = {0_mm, 0_mm};
@@ -18,7 +18,7 @@ TEST_CASE("test_primitives/test_image | Draw image", "[render/mock]") {
 
     SECTION("Draw") {
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         image.doRender(context);
         REQUIRE(drwList.drawImage.size() == 1);

@@ -5,15 +5,16 @@
 
 namespace primitives {
 
-    template<const char *Origin, typename TDrawList>
-    struct Arc : LineElement<Origin, TDrawList> {
-        using RenderContext = typename LineElement<Origin, TDrawList>::RenderContext;
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
+    struct Arc : LineElement<Origin, TDrawList, PixelsSymbol> {
+        using RenderContext = typename LineElement<Origin, TDrawList, PixelsSymbol>::RenderContext;
         using Vector2Ori = typename RenderContext::Vector2Ori;
         using OriginUnits = typename RenderContext::OriginUnits;
+        using PixelUnits = typename RenderContext::PixelUnits;
 
         // TODO: Is this a polyline?
         ImU32 color = IM_COL32_BLACK;
-        math::Pixels thickness;
+        PixelUnits thickness;
         Vector2Ori center;
         OriginUnits radius;
         Magnum::Deg start;

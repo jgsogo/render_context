@@ -19,6 +19,7 @@ add_executable(unit_tests
 
         test_render/test_imgui_context.cpp
         test_render/test_imgui_functions.cpp
+        test_render/test_imgui_primitives.cpp
         test_render/test_context.cpp
 
         test_primitives/test_line.cpp

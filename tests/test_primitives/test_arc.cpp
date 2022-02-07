@@ -8,7 +8,7 @@
 using namespace math::units;
 
 TEST_CASE("test_primitives/test_arc | Draw a arc", "[render/mock]") {
-    auto arc = primitives::Arc<math::Milimeters::symbol, mocks::DrawList>{};
+    auto arc = primitives::Arc<math::Milimeters::symbol, mocks::DrawList, math::units::px>{};
     arc.color = IM_COL32_BLACK;
     arc.thickness = 23_px;
     arc.center = {0_mm, 0_mm};
@@ -16,10 +16,10 @@ TEST_CASE("test_primitives/test_arc | Draw a arc", "[render/mock]") {
     arc.start = 10_deg;
     arc.end = 20_deg;
 
-    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList> &primitive = arc;
+    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList, math::units::px> &primitive = arc;
     SECTION("Draw") {
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         primitive.doRender(context);
         REQUIRE(drwList.drawLine.empty());
@@ -32,7 +32,7 @@ TEST_CASE("test_primitives/test_arc | Draw a arc", "[render/mock]") {
     }
 
     SECTION("Polyline") {
-        primitives::LineElement<math::Milimeters::symbol, mocks::DrawList> &lineElement = arc;
+        primitives::LineElement<math::Milimeters::symbol, mocks::DrawList, math::units::px> &lineElement = arc;
         auto polyline = lineElement.getPolyline();
         REQUIRE(polyline.size() == 11);
         REQUIRE(polyline.at(0) == Magnum::Math::Vector2<math::Milimeters>{20_mm * cos(10_deg), 20_mm * sin(10_deg)});

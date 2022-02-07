@@ -5,9 +5,9 @@
 
 namespace primitives {
 
-    template<const char *Origin, typename TDrawList>
-    struct Text : Primitive<Origin, TDrawList> {
-        using RenderContext = typename Primitive<Origin, TDrawList>::RenderContext;
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
+    struct Text : Primitive<Origin, TDrawList, PixelsSymbol> {
+        using RenderContext = typename Primitive<Origin, TDrawList, PixelsSymbol>::RenderContext;
         using Vector2Ori = typename RenderContext::Vector2Ori;
 
         ImU32 color = IM_COL32_BLACK;

@@ -5,15 +5,15 @@
 
 namespace primitives {
 
-    template<const char *Origin, typename TDrawList>
-    struct Rectangle : BasePolygon<Origin, TDrawList> {
-        using BasePolygon<Origin, TDrawList>::filled;
-        using BasePolygon<Origin, TDrawList>::fillColor;
-        using BasePolygon<Origin, TDrawList>::border;
-        using BasePolygon<Origin, TDrawList>::borderColor;
-        using BasePolygon<Origin, TDrawList>::borderThickness;
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
+    struct Rectangle : BasePolygon<Origin, TDrawList, PixelsSymbol> {
+        using BasePolygon<Origin, TDrawList, PixelsSymbol>::filled;
+        using BasePolygon<Origin, TDrawList, PixelsSymbol>::fillColor;
+        using BasePolygon<Origin, TDrawList, PixelsSymbol>::border;
+        using BasePolygon<Origin, TDrawList, PixelsSymbol>::borderColor;
+        using BasePolygon<Origin, TDrawList, PixelsSymbol>::borderThickness;
 
-        using RenderContext = typename BasePolygon<Origin, TDrawList>::RenderContext;
+        using RenderContext = typename BasePolygon<Origin, TDrawList, PixelsSymbol>::RenderContext;
         using OriginUnits = typename RenderContext::OriginUnits;
 
         Magnum::Math::Range2D<OriginUnits> rect;

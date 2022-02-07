@@ -9,17 +9,17 @@
 using namespace math::units;
 
 TEST_CASE("test_primitives/test_text | Draw text", "[render/mock]") {
-    auto txt = primitives::Text<math::Milimeters::symbol, mocks::DrawList>{};
+    auto txt = primitives::Text<math::Milimeters::symbol, mocks::DrawList, math::units::px>{};
     txt.color = IM_COL32_BLACK;
     txt.fontSize = 23.f;
     txt.position.set({10_mm, 20_mm});
     txt.position.set(45_deg);
     txt.content = "content";
 
-    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList> &primitive = txt;
+    primitives::Primitive<math::Milimeters::symbol, mocks::DrawList, math::units::px> &primitive = txt;
     SECTION("Draw") {
         mocks::DrawList drwList;
-        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList};
+        auto context = render::Context<math::Milimeters::symbol, mocks::DrawList, math::units::px>{drwList};
 
         primitive.doRender(context);
         REQUIRE(drwList.drawLine.empty());

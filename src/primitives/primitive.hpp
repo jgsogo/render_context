@@ -5,9 +5,9 @@
 
 namespace primitives {
 
-    template<const char *Origin, typename TDrawList>
+    template<const char *Origin, typename TDrawList, const char *PixelsSymbol>
     struct Primitive {
-        using RenderContext = render::Context<Origin, TDrawList>;
+        using RenderContext = render::Context<Origin, TDrawList, PixelsSymbol>;
         using Vector2Ori = typename RenderContext::Vector2Ori;
 
         virtual void doRender(RenderContext &render) const = 0;
