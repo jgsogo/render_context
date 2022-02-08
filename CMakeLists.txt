@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(render_context
         LANGUAGES C CXX
-        VERSION 0.2.2
+        VERSION 0.2.3
         DESCRIPTION "Utilities to render using Magnum with ImGUI integration")
 
 set(CMAKE_CXX_STANDARD 20)

@@ -87,3 +87,30 @@ TEST_CASE("test_render/test_imgui_context | Instantiate context", "[render/imgui
 
     ImGui::DestroyContext();
 }
+
+TEST_CASE("test_render/test_imgui_context | Concatenate contexts", "[render/imgui]") {
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    io.DisplaySize = ImVec2(1920, 1080);
+    io.DeltaTime = 1.0f / 60.0f;
+
+    // Build atlas
+    unsigned char *tex_pixels = nullptr;
+    int tex_w, tex_h;
+    io.Fonts->GetTexDataAsRGBA32(&tex_pixels, &tex_w, &tex_h);
+
+    ImGui::NewFrame();
+    auto drawlist = ImGui::GetWindowDrawList();
+
+    render::ImGuiContext<math::Milimeters::symbol> context{*drawlist};
+
+    SECTION("Apply transformation and draw") {
+        math::xy::types::Transformation<math::units::px, math::units::mm, float> t;
+        auto ctxt = context << t;
+        Magnum::Math::Vector2<math::types::PixelsT<float>> center{0_px, 0_px};
+        ctxt.drawCircle(center, 10_px, IM_COL32_BLACK, 2_impx);
+    }
+
+    ImGui::DestroyContext();
+
+}

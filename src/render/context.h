@@ -69,9 +69,8 @@ namespace render {
         }
 
         template<const char *Other>
-        Context<Other, TDrawList> operator<<(const math::xy::types::Transformation<Other, Origin, float> &tf) const {
-            Context<Other, TDrawList> ctxt{_drawList, _lod};
-            ctxt._transformation = _transformation * tf;
+        Context<Other, TDrawList, PixelsSymbol> operator<<(const math::xy::types::Transformation<Other, Origin, float> &tf) const {
+            Context<Other, TDrawList, PixelsSymbol> ctxt{_drawList, _lod, _transformation * tf};
             return ctxt;
         }
 
