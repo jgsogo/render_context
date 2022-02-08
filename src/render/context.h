@@ -74,7 +74,11 @@ namespace render {
             return ctxt;
         }
 
-        Vector2Ori transformInverse(const Magnum::Math::Vector2<math::Pixels> &in) {
+        Vector2Px transformPoint(const Vector2Ori &in) {
+            return _transformation.transformPoint(in);
+        }
+
+        Vector2Ori transformInverse(const Vector2Px &in) {
             return _transformation.transformInverse(in);
         }
 

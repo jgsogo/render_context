@@ -19,7 +19,13 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     TransformationType::Rotation rotation{0_deg};
     auto scale = math::ratio(1_mm, 1_px);
 
-    auto context = render::Context<math::Milimeters::symbol, mocks::DrawList>{drwList, 0, translation, rotation, scale};
+    auto context = render::Context<math::units::mm, mocks::DrawList>{drwList, 0, translation, rotation, scale};
+
+    SECTION("Transform") {
+        auto tgtPoint = context.transformPoint({0_mm, 0_mm});
+        REQUIRE(tgtPoint.x() == 10_px);
+        REQUIRE(tgtPoint.y() == 20_px);
+    }
 
     SECTION("Transform inverse") {
         auto oriPoint = context.transformInverse({10_px, 20_px});
