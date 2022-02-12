@@ -6,8 +6,8 @@
 namespace math {
 
     namespace units {
-        static const char mm[] = "mm";
-        static const char m[] = "m";
+        inline constexpr const char mm[] = "mm";
+        inline constexpr const char m[] = "m";
     }
 
     namespace types {
@@ -47,12 +47,8 @@ namespace math {
 
     // Some known ratios
     template<>
-    types::RatioT<units::m, units::mm, float> ratio<units::m, units::mm, float>() {
-        return types::RatioT<units::m, units::mm, float>{Meters{1.f}, Milimeters{1000.f}};
-    }
+    types::RatioT<units::m, units::mm, float> ratio<units::m, units::mm, float>();
 
     template<>
-    types::RatioT<units::mm, units::m, float> ratio<units::mm, units::m, float>() {
-        return ratio<units::m, units::mm, float>().inverse();
-    }
+    types::RatioT<units::mm, units::m, float> ratio<units::mm, units::m, float>();
 }
