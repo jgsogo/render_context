@@ -6,7 +6,7 @@ namespace render {
 
     namespace imgui {
         namespace units {
-            static constexpr char impx[] = "impx";
+            inline constexpr const char impx[] = "impx";
         }
 
         using Pixels = math::types::NamedUnitT<float, units::impx>;

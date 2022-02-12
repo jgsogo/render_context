@@ -12,7 +12,7 @@
 
 namespace render {
     namespace units {
-        static constexpr char uv[] = "uv";
+        inline constexpr const char uv[] = "uv";
     }
 
     using UVCoordinates = math::types::NamedUnitT<float, units::uv>;

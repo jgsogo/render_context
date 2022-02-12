@@ -5,7 +5,7 @@
 namespace math {
 
     namespace units {
-        static const char px[] = "px";
+        inline constexpr const char px[] = "px";
     }
 
     namespace types {

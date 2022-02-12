@@ -6,8 +6,8 @@
 namespace math {
 
     namespace units {
-        static const char mm[] = "mm";
-        static const char m[] = "m";
+        inline constexpr const char mm[] = "mm";
+        inline constexpr const char m[] = "m";
     }
 
     namespace types {
