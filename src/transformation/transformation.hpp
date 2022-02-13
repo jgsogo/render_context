@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <cassert>
 #include <Magnum/Magnum.h>
 #include <Magnum/Math/Matrix3.h>
 #include <Magnum/Math/Vector2.h>
