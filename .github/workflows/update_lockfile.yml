@@ -32,7 +32,9 @@ jobs:
 
       - name: Configure Conan
         run: |
+          conan config init --force
           conan config set general.revisions_enabled=1
+          conan profile update settings.compiler.libcxx=libstdc++11 default
           conan config install https://github.com/conan-io/conanclientcert.git
           conan --version
           conan config home
