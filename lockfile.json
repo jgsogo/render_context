@@ -5,8 +5,8 @@
     "requires": [
      "1",
      "2",
-     "11",
-     "15"
+     "32",
+     "36"
     ],
     "path": "conanfile.txt",
     "context": "host"
@@ -20,13 +20,14 @@
     "requires": [
      "3",
      "4",
-     "5",
      "6",
-     "8",
-     "9"
+     "7",
+     "16",
+     "17",
+     "18"
     ],
     "build_requires": [
-     "16"
+     "118"
     ],
     "context": "host"
    },
@@ -35,70 +36,768 @@
     "context": "host"
    },
    "4": {
-    "ref": "openal/1.21.1#072b4665896bd2fc641a91d500b18f1d",
-    "context": "host"
-   },
-   "5": {
-    "ref": "opengl/system#15c5ec306b8c76037866518ef8d87ec9",
-    "context": "host"
-   },
-   "6": {
-    "ref": "vulkan-loader/1.2.190#40a1209bf4eb63007417572f90896446",
-    "requires": [
-     "7"
-    ],
-    "context": "host"
-   },
-   "7": {
-    "ref": "vulkan-headers/1.2.190#5297144120f37a1b25ea324a6cc0d5e8",
-    "context": "host"
-   },
-   "8": {
-    "ref": "glfw/3.3.4#159000ac91b2987be41e3b28a2144d5b",
+    "ref": "openal/1.21.1#329e0813f2c64ee8bdef17595ab4ae4a",
     "requires": [
      "5"
     ],
     "context": "host"
    },
-   "9": {
-    "ref": "sdl/2.0.16#10dfbdd4ebf5b483b1b996a04d8a5ea7",
-    "requires": [
-     "10"
+   "5": {
+    "ref": "libalsa/1.2.5.1#750da3f719b7843100e16e048c793a38",
+    "build_requires": [
+     "37"
     ],
     "context": "host"
    },
+   "6": {
+    "ref": "opengl/system#3582b5d3184289461f73339622c71d31",
+    "context": "host"
+   },
+   "7": {
+    "ref": "vulkan-loader/1.2.190#18c47042dc5ce0c594b3598565e8f39d",
+    "requires": [
+     "8",
+     "9",
+     "10"
+    ],
+    "build_requires": [
+     "95"
+    ],
+    "context": "host"
+   },
+   "8": {
+    "ref": "vulkan-headers/1.2.190#62bbfe4444f22527f76defa9b9a697f0",
+    "context": "host"
+   },
+   "9": {
+    "ref": "xorg/system#f124447df2885b3632d1b94ba20b6294",
+    "context": "host"
+   },
    "10": {
-    "ref": "libiconv/1.16#62d788031fc38bfb1acd0de05085ced4",
+    "ref": "wayland/1.20.0#f8e1c6dd26fad24029162f607cb9569c",
+    "requires": [
+     "11",
+     "12",
+     "15"
+    ],
+    "build_requires": [
+     "83"
+    ],
     "context": "host"
    },
    "11": {
-    "ref": "magnum-integration/2020.06#f08083a0054cd795f313e3dc3b546921",
-    "requires": [
-     "2",
-     "12",
-     "13",
-     "14",
-     "1"
+    "ref": "libffi/3.4.2#61b2535c3bebf5a434f2d4ed6a895e64",
+    "build_requires": [
+     "42"
     ],
     "context": "host"
    },
    "12": {
-    "ref": "bullet3/3.17#eeed5fbc682b5c0b3d156c67e18cd869",
+    "ref": "libxml2/2.9.12#ec19ae8cc4784751faa5205fe10b69c6",
+    "requires": [
+     "13",
+     "14"
+    ],
+    "build_requires": [
+     "46"
+    ],
     "context": "host"
    },
    "13": {
-    "ref": "eigen/3.4.0#ee95705da717e7c737e40d6ca3fea6f3",
+    "ref": "zlib/1.2.11#b46bf663179824c23085bb71666ba8e6",
     "context": "host"
    },
    "14": {
-    "ref": "glm/0.9.9.8#8b5a2c026a6704368eb825f9966de90b",
+    "ref": "libiconv/1.16#05310dd310959552336b136c594ac562",
     "context": "host"
    },
    "15": {
-    "ref": "catch2/2.13.7#7a02848e5fd2eec6b6e6519c0f9eb89b",
+    "ref": "expat/2.4.2#2aeca00316d53ce747a266160e32443a",
     "context": "host"
    },
    "16": {
+    "ref": "egl/system#c1702867b3b65776597f03724cc5978e",
+    "context": "host"
+   },
+   "17": {
+    "ref": "glfw/3.3.4#0e7cc2390a612b7b689916b6615a0987",
+    "requires": [
+     "6",
+     "9"
+    ],
+    "context": "host"
+   },
+   "18": {
+    "ref": "sdl/2.0.16#a9b8689e4b2d4e4e429b4b86dd37bc9b",
+    "requires": [
+     "14",
+     "5",
+     "19",
+     "6",
+     "27",
+     "10",
+     "28",
+     "16",
+     "30"
+    ],
+    "build_requires": [
+     "103",
+     "104"
+    ],
+    "context": "host"
+   },
+   "19": {
+    "ref": "pulseaudio/14.2#d34d022eafd71394badff6dc3bc1c4ec",
+    "requires": [
+     "14",
+     "20",
+     "25",
+     "5",
+     "9",
+     "26"
+    ],
+    "build_requires": [
+     "85",
+     "87",
+     "91"
+    ],
+    "context": "host"
+   },
+   "20": {
+    "ref": "libsndfile/1.0.31#4201bb82fa06945d0e231da4a73d6741",
+    "requires": [
+     "21",
+     "22",
+     "23",
+     "24"
+    ],
+    "context": "host"
+   },
+   "21": {
+    "ref": "ogg/1.3.4#fa3dcc8997faf6f18b51b4286f9db7cf",
+    "context": "host"
+   },
+   "22": {
+    "ref": "vorbis/1.3.7#1b1d5d86b17115979c47a90dfd8a4f9b",
+    "requires": [
+     "21"
+    ],
+    "context": "host"
+   },
+   "23": {
+    "ref": "flac/1.3.3#e22756a63329b7fbbf0dc3754dd267f7",
+    "requires": [
+     "21"
+    ],
+    "build_requires": [
+     "45"
+    ],
+    "context": "host"
+   },
+   "24": {
+    "ref": "opus/1.3.1#6d2446ed5a38e86a3bb304db3ffb3e01",
+    "context": "host"
+   },
+   "25": {
+    "ref": "libcap/2.62#74510b5cc8f21a6fc1619771915f9fce",
+    "context": "host"
+   },
+   "26": {
+    "ref": "openssl/1.1.1m#baa265ba7a1c1bdf33346264aa84fa43",
+    "context": "host"
+   },
+   "27": {
+    "ref": "nas/1.9.4#51413d5b84d9964b00fbd89340ef73d1",
+    "requires": [
+     "9"
+    ],
+    "build_requires": [
+     "49",
+     "51",
+     "52",
+     "55",
+     "56",
+     "57"
+    ],
+    "context": "host"
+   },
+   "28": {
+    "ref": "xkbcommon/1.3.1#80f7e0b94d4640c1eca48a0a8e92b274",
+    "requires": [
+     "9",
+     "12",
+     "10",
+     "29"
+    ],
+    "build_requires": [
+     "98",
+     "100"
+    ],
+    "context": "host"
+   },
+   "29": {
+    "ref": "wayland-protocols/1.24#80850283176b2d0810c4227be7b9e01d",
+    "build_requires": [
+     "43"
+    ],
+    "context": "host"
+   },
+   "30": {
+    "ref": "libunwind/1.5.0#3992192c711bf34d5a200020d62ccc2e",
+    "requires": [
+     "31"
+    ],
+    "context": "host"
+   },
+   "31": {
+    "ref": "xz_utils/5.2.5#7419701f9b113d603ce0dd13753efc8c",
+    "context": "host"
+   },
+   "32": {
+    "ref": "magnum-integration/2020.06#f08083a0054cd795f313e3dc3b546921",
+    "requires": [
+     "2",
+     "33",
+     "34",
+     "35",
+     "1"
+    ],
+    "context": "host"
+   },
+   "33": {
+    "ref": "bullet3/3.17#eeed5fbc682b5c0b3d156c67e18cd869",
+    "context": "host"
+   },
+   "34": {
+    "ref": "eigen/3.4.0#1796310a2da3d9a050ccdc541c9d4b58",
+    "context": "host"
+   },
+   "35": {
+    "ref": "glm/0.9.9.8#8b5a2c026a6704368eb825f9966de90b",
+    "context": "host"
+   },
+   "36": {
+    "ref": "catch2/2.13.7#7a02848e5fd2eec6b6e6519c0f9eb89b",
+    "context": "host"
+   },
+   "37": {
+    "ref": "libtool/2.4.6#ffa5ebc2aea7977aefd32a43c2b46c66",
+    "requires": [
+     "38"
+    ],
+    "build_requires": [
+     "41"
+    ],
+    "context": "build"
+   },
+   "38": {
+    "ref": "automake/1.16.4#b1f2e6cc5a58827818859a5fecc00ac2",
+    "requires": [
+     "39"
+    ],
+    "context": "build"
+   },
+   "39": {
+    "ref": "autoconf/2.71#a7e681fccf619b8eaf7089a22b58b0a0",
+    "requires": [
+     "40"
+    ],
+    "context": "build"
+   },
+   "40": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "41": {
+    "ref": "gnu-config/cci.20201022#8cee5aa587f355f8fde822cf368805db",
+    "context": "build"
+   },
+   "42": {
+    "ref": "gnu-config/cci.20201022#8cee5aa587f355f8fde822cf368805db",
+    "context": "build"
+   },
+   "43": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "44"
+    ],
+    "context": "build"
+   },
+   "44": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "45": {
+    "ref": "nasm/2.15.05#6ca02ce56db197ea2f5ae38ce0856c30",
+    "context": "build"
+   },
+   "46": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "47"
+    ],
+    "context": "build"
+   },
+   "47": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "48"
+    ],
+    "context": "build"
+   },
+   "48": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "49": {
+    "ref": "bison/3.7.1#ad29e804e82c8b6d58765096676b5a5e",
+    "requires": [
+     "50"
+    ],
+    "build_requires": [
+     "61"
+    ],
+    "context": "build"
+   },
+   "50": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "51": {
+    "ref": "flex/2.6.4#e4696e6333f2d486e7073de6a9559712",
+    "requires": [
+     "50"
+    ],
+    "context": "build"
+   },
+   "52": {
+    "ref": "imake/1.0.8#6d1002c64332d029d3d0d3bb8b8b1391",
+    "requires": [
+     "53"
+    ],
+    "build_requires": [
+     "71",
+     "74"
+    ],
+    "context": "build"
+   },
+   "53": {
+    "ref": "xorg-proto/2021.4#a33437da70591bb16417a77169e3f145",
+    "requires": [
+     "54"
+    ],
+    "build_requires": [
+     "65",
+     "68"
+    ],
+    "context": "build"
+   },
+   "54": {
+    "ref": "xorg-macros/1.19.3#d9bf1875190209b1d02406b9581c83ef",
+    "build_requires": [
+     "58"
+    ],
+    "context": "build"
+   },
+   "55": {
+    "ref": "xorg-cf-files/1.0.7#b76f3d987c8af255cad0ba8fbed4628d",
+    "requires": [
+     "54",
+     "53"
+    ],
+    "build_requires": [
+     "77"
+    ],
+    "context": "build"
+   },
+   "56": {
+    "ref": "xorg-makedepend/1.0.6#61c1c53122f45f10ddc4564f273679d8",
+    "requires": [
+     "54",
+     "53"
+    ],
+    "build_requires": [
+     "80"
+    ],
+    "context": "build"
+   },
+   "57": {
+    "ref": "xorg-gccmakedep/1.0.3#70e65631be1c500cb60709779f7f809f",
+    "requires": [
+     "54"
+    ],
+    "build_requires": [
+     "62"
+    ],
+    "context": "build"
+   },
+   "58": {
+    "ref": "automake/1.16.3#377d33c6724869bbb85778970844bf4c",
+    "requires": [
+     "59"
+    ],
+    "context": "build"
+   },
+   "59": {
+    "ref": "autoconf/2.71#a7e681fccf619b8eaf7089a22b58b0a0",
+    "requires": [
+     "60"
+    ],
+    "context": "build"
+   },
+   "60": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "61": {
+    "ref": "flex/2.6.4#e4696e6333f2d486e7073de6a9559712",
+    "requires": [
+     "50"
+    ],
+    "context": "build"
+   },
+   "62": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "63"
+    ],
+    "context": "build"
+   },
+   "63": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "64"
+    ],
+    "context": "build"
+   },
+   "64": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "65": {
+    "ref": "automake/1.16.3#377d33c6724869bbb85778970844bf4c",
+    "requires": [
+     "66"
+    ],
+    "context": "build"
+   },
+   "66": {
+    "ref": "autoconf/2.71#a7e681fccf619b8eaf7089a22b58b0a0",
+    "requires": [
+     "67"
+    ],
+    "context": "build"
+   },
+   "67": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "68": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "69"
+    ],
+    "context": "build"
+   },
+   "69": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "70"
+    ],
+    "context": "build"
+   },
+   "70": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "71": {
+    "ref": "automake/1.16.3#377d33c6724869bbb85778970844bf4c",
+    "requires": [
+     "72"
+    ],
+    "context": "build"
+   },
+   "72": {
+    "ref": "autoconf/2.71#a7e681fccf619b8eaf7089a22b58b0a0",
+    "requires": [
+     "73"
+    ],
+    "context": "build"
+   },
+   "73": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "74": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "75"
+    ],
+    "context": "build"
+   },
+   "75": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "76"
+    ],
+    "context": "build"
+   },
+   "76": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "77": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "78"
+    ],
+    "context": "build"
+   },
+   "78": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "79"
+    ],
+    "context": "build"
+   },
+   "79": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "80": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "81"
+    ],
+    "context": "build"
+   },
+   "81": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "82"
+    ],
+    "context": "build"
+   },
+   "82": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "83": {
+    "ref": "meson/0.59.3#d728222e025fd95c6393e70238f9a921",
+    "requires": [
+     "84"
+    ],
+    "context": "build"
+   },
+   "84": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "85": {
+    "ref": "gettext/0.21#bc156aa5372a9310da48bfd1df9e37d7",
+    "requires": [
+     "86"
+    ],
+    "context": "build"
+   },
+   "86": {
+    "ref": "libiconv/1.16#05310dd310959552336b136c594ac562",
+    "context": "build"
+   },
+   "87": {
+    "ref": "libtool/2.4.6#ffa5ebc2aea7977aefd32a43c2b46c66",
+    "requires": [
+     "88"
+    ],
+    "build_requires": [
+     "94"
+    ],
+    "context": "build"
+   },
+   "88": {
+    "ref": "automake/1.16.4#b1f2e6cc5a58827818859a5fecc00ac2",
+    "requires": [
+     "89"
+    ],
+    "context": "build"
+   },
+   "89": {
+    "ref": "autoconf/2.71#a7e681fccf619b8eaf7089a22b58b0a0",
+    "requires": [
+     "90"
+    ],
+    "context": "build"
+   },
+   "90": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "91": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "92"
+    ],
+    "context": "build"
+   },
+   "92": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "93"
+    ],
+    "context": "build"
+   },
+   "93": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "94": {
+    "ref": "gnu-config/cci.20201022#8cee5aa587f355f8fde822cf368805db",
+    "context": "build"
+   },
+   "95": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "96"
+    ],
+    "context": "build"
+   },
+   "96": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "97"
+    ],
+    "context": "build"
+   },
+   "97": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "98": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "99"
+    ],
+    "context": "build"
+   },
+   "99": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "100": {
+    "ref": "bison/3.7.6#617948f0c002e1ab9c22439c9e6a24ab",
+    "requires": [
+     "101"
+    ],
+    "build_requires": [
+     "102"
+    ],
+    "context": "build"
+   },
+   "101": {
+    "ref": "m4/1.4.19#7bf4b7de37a545f40f65aeb26e4f135f",
+    "context": "build"
+   },
+   "102": {
+    "ref": "flex/2.6.4#e4696e6333f2d486e7073de6a9559712",
+    "requires": [
+     "101"
+    ],
+    "context": "build"
+   },
+   "103": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "111"
+    ],
+    "context": "build"
+   },
+   "104": {
+    "ref": "wayland/1.20.0#f8e1c6dd26fad24029162f607cb9569c",
+    "requires": [
+     "105",
+     "106",
+     "109"
+    ],
+    "build_requires": [
+     "116"
+    ],
+    "context": "build"
+   },
+   "105": {
+    "ref": "libffi/3.4.2#61b2535c3bebf5a434f2d4ed6a895e64",
+    "build_requires": [
+     "110"
+    ],
+    "context": "build"
+   },
+   "106": {
+    "ref": "libxml2/2.9.12#ec19ae8cc4784751faa5205fe10b69c6",
+    "requires": [
+     "107",
+     "108"
+    ],
+    "build_requires": [
+     "113"
+    ],
+    "context": "build"
+   },
+   "107": {
+    "ref": "zlib/1.2.11#b46bf663179824c23085bb71666ba8e6",
+    "context": "build"
+   },
+   "108": {
+    "ref": "libiconv/1.16#05310dd310959552336b136c594ac562",
+    "context": "build"
+   },
+   "109": {
+    "ref": "expat/2.4.2#2aeca00316d53ce747a266160e32443a",
+    "context": "build"
+   },
+   "110": {
+    "ref": "gnu-config/cci.20201022#8cee5aa587f355f8fde822cf368805db",
+    "context": "build"
+   },
+   "111": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "112"
+    ],
+    "context": "build"
+   },
+   "112": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "113": {
+    "ref": "pkgconf/1.7.4#5e404aa82d3f26619bd22254e68a430b",
+    "build_requires": [
+     "114"
+    ],
+    "context": "build"
+   },
+   "114": {
+    "ref": "meson/0.60.2#5bc6d7c3bc8efe9b441d29d374eb56fa",
+    "requires": [
+     "115"
+    ],
+    "context": "build"
+   },
+   "115": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "116": {
+    "ref": "meson/0.59.3#d728222e025fd95c6393e70238f9a921",
+    "requires": [
+     "117"
+    ],
+    "context": "build"
+   },
+   "117": {
+    "ref": "ninja/1.10.2#0ed34363d5683eb57a22bd2ccd7b62fc",
+    "context": "build"
+   },
+   "118": {
     "ref": "corrade/2020.06#0895988f51a779301903a218ba871f8a",
     "context": "build"
    }
