@@ -39,8 +39,12 @@ namespace math::xy::types {
             }
 
             /* Transform magnitude taking only scale into account */
-            TargetUnits transformMagnitude(const OriginUnits &in) {
+            TargetUnits transformMagnitude(const OriginUnits &in) const {
                 return TargetUnits{static_cast<T>(in) * _transformation.uniformScaling()};
+            }
+
+            OriginUnits transfromInverseMagnitude(const TargetUnits &in) const {
+                return OriginUnits{static_cast<T>(in) / _transformation.uniformScaling()};
             }
 
             /* Functions to set/update transformation */
@@ -59,6 +63,14 @@ namespace math::xy::types {
                 this->_set(t, args...);
                 this->_update();
             };
+
+            const Translation &getTranslation() const {
+                return _translation;
+            }
+
+            const Rotation &getRotation() const {
+                return _rotation;
+            }
 
         protected:
             virtual void _update() = 0;
@@ -132,6 +144,10 @@ namespace math::xy::types {
         void set(const Scale &scale) {
             this->_set(scale);
             this->_update();
+        }
+
+        const Scale &getScale() const {
+            return _scale;
         }
 
     protected:
