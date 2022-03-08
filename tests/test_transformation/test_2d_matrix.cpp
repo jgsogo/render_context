@@ -66,6 +66,9 @@ TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (with scale)
 
     auto px = m.transformMagnitude(16_mm);
     REQUIRE(px == 2_px);
+
+    auto mm_ = m.transfromInverseMagnitude(10_px);
+    REQUIRE(mm_ == 80_mm);
 }
 
 TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (without scale)", "[transformation/2d]") {
@@ -76,6 +79,9 @@ TEST_CASE("test_transformation/test_2d_matrix | Transform magnitude (without sca
 
     auto px = m.transformMagnitude(16_mm);  // No scale :D
     REQUIRE(px == 16_mm);
+
+    auto mm_ = m.transfromInverseMagnitude(10_mm);
+    REQUIRE(mm_ == 10_mm);
 }
 
 
@@ -84,14 +90,21 @@ TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (wit
     auto m = TransformationType{};
     auto inputPoint = Magnum::Math::Vector2{1_mm, 0_mm};
 
+    REQUIRE(m.getTranslation() == Magnum::Math::Vector2{0_px, 0_px});
+    REQUIRE(m.getRotation() == 0_deg);
+    REQUIRE(static_cast<float>(m.getScale()) == 1.f);
+
     m.set(TransformationType::Translation{10_px, 20_px});
     REQUIRE(m.transformPoint(inputPoint) == Magnum::Math::Vector2{11_px, 20_px});
+    REQUIRE(m.getTranslation() == Magnum::Math::Vector2{10_px, 20_px});
 
     m.set(TransformationType::Rotation{90_deg});
     REQUIRE(m.transformPoint(inputPoint) == Magnum::Math::Vector2{10_px, 21_px});
+    REQUIRE(m.getRotation() == 90_deg);
 
     m.set(TransformationType::Scale{math::ratio(8_mm, 1_px)});
     REQUIRE(m.transformPoint(inputPoint) == Magnum::Math::Vector2{10_px, 20.125_px});
+    REQUIRE(static_cast<float>(m.getScale()) == 0.125f);
 
     m.set(TransformationType::Translation{0_px, 0_px},
           TransformationType::Rotation{0_deg},
@@ -117,11 +130,16 @@ TEST_CASE("test_transformation/test_2d_matrix | Set transformation elements (wit
     auto m = TransformationType{};
     auto inputPoint = Magnum::Math::Vector2{1_px, 0_px};
 
+    REQUIRE(m.getTranslation() == Magnum::Math::Vector2{0_px, 0_px});
+    REQUIRE(m.getRotation() == 0_deg);
+
     m.set(TransformationType::Translation{10_px, 20_px});
     REQUIRE(m.transformPoint(inputPoint) == Magnum::Math::Vector2{11_px, 20_px});
+    REQUIRE(m.getTranslation() == Magnum::Math::Vector2{10_px, 20_px});
 
     m.set(TransformationType::Rotation{90_deg});
     REQUIRE(m.transformPoint(inputPoint) == Magnum::Math::Vector2{10_px, 21_px});
+    REQUIRE(m.getRotation() == 90_deg);
 
     m.set(TransformationType::Translation{0_px, 0_px},
           TransformationType::Rotation{0_deg});

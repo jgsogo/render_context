@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <Magnum/Math/Unit.h>
+#include <compare>
 #include "named_unit.hpp"
 
 namespace math {
@@ -19,11 +20,11 @@ namespace math {
 
         template<const char *symbolOrigin, const char *symbolTarget, typename T>
         class RatioT : protected _impl::RatioT<T> {
-            static_assert(!std::is_same_v<NamedUnitT < T, symbolOrigin>, NamedUnitT < T, symbolTarget >> , "A ratio should always be between different types");
+            static_assert(!std::is_same_v<NamedUnitT<T, symbolOrigin>, NamedUnitT<T, symbolTarget >>, "A ratio should always be between different types");
         public:
             using _impl::RatioT<T>::operator T;
 
-            RatioT(NamedUnitT <T, symbolOrigin> ori, NamedUnitT <T, symbolTarget> tgt) noexcept: _impl::RatioT<T>(static_cast<T>(tgt) / static_cast<T>(ori)) {}
+            RatioT(NamedUnitT<T, symbolOrigin> ori, NamedUnitT<T, symbolTarget> tgt) noexcept: _impl::RatioT<T>(static_cast<T>(tgt) / static_cast<T>(ori)) {}
 
             constexpr explicit RatioT(Magnum::Math::IdentityInitT) noexcept: _impl::RatioT<T>{Magnum::Math::IdentityInit} {}
 
@@ -40,21 +41,34 @@ namespace math {
                 return os;
             }
 
-            friend NamedUnitT <T, symbolTarget> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio, const NamedUnitT <T, symbolOrigin> &in) {
+            friend NamedUnitT<T, symbolTarget> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio, const NamedUnitT<T, symbolOrigin> &in) {
                 return NamedUnitT<T, symbolTarget>{static_cast<T>(ratio) * static_cast<T>(in)};
             }
 
-            friend NamedUnitT <T, symbolTarget> operator*(const NamedUnitT <T, symbolOrigin> &in, const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
+            friend NamedUnitT<T, symbolTarget> operator*(const NamedUnitT<T, symbolOrigin> &in, const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
                 return ratio * in;
             }
 
-            friend NamedUnitT <T, symbolOrigin> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio, const NamedUnitT <T, symbolTarget> &in) {
+            friend NamedUnitT<T, symbolOrigin> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio, const NamedUnitT<T, symbolTarget> &in) {
                 return NamedUnitT<T, symbolOrigin>{static_cast<T>(in) / static_cast<T>(ratio)};
             }
 
-            friend NamedUnitT <T, symbolOrigin> operator*(const NamedUnitT <T, symbolTarget> &in, const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
+            friend NamedUnitT<T, symbolOrigin> operator*(const NamedUnitT<T, symbolTarget> &in, const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
                 return ratio * in;
             }
+
+            // Compare operators
+            bool operator==(const RatioT<symbolOrigin, symbolTarget, T> &other) const {
+                return static_cast<T>(*this) == static_cast<T>(other);
+            }
+
+            bool operator!=(const RatioT<symbolOrigin, symbolTarget, T> &other) const {
+                return static_cast<T>(*this) != static_cast<T>(other);
+            }
+
+            auto operator<=>(const RatioT<symbolOrigin, symbolTarget, T> &other) const {
+                return static_cast<T>(*this) <=> static_cast<T>(other);
+            };
         };
 
     }

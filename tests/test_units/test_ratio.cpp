@@ -37,6 +37,17 @@ TEST_CASE("test_units/test_ratio | Inverse ratio", "[units/ratio]") {
     }
 }
 
+TEST_CASE("test_units/test_ratio | Compare ratios", "[units/ratio]") {
+    auto r1 = math::ratio(1_mm, 8_px);
+    auto r2 = math::ratio(2_mm, 8_px);
+    REQUIRE(r1 > r2);
+    REQUIRE(r1 >= r2);
+    REQUIRE(r2 < r1);
+    REQUIRE(r2 <= r1);
+    REQUIRE(r1 != r2);
+    REQUIRE(r1 == r1);
+}
+
 TEST_CASE("test_units/test_ratio | Apply ratio", "[units/ratio]") {
     auto ratio = math::types::RatioT(1_px, 10_mm);
     {

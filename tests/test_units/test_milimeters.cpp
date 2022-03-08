@@ -42,4 +42,6 @@ TEST_CASE("test_units/test_milimeters | Test operators", "[units/milimeters]") {
 
     REQUIRE(mm / 2 == 1.75_mm);
     REQUIRE(3_mm / 1.5 == 2_mm);
+
+    REQUIRE(fmod(static_cast<float>(3_mm), 2.f) == 1.f);
 }
