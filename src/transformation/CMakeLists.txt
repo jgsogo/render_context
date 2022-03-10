@@ -1,7 +1,7 @@
 
 add_library(transformation INTERFACE)
 set_target_properties(transformation PROPERTIES
-        PUBLIC_HEADER "transformation.hpp"
+        PUBLIC_HEADER "transformation.hpp;utils.hpp"
         )
 target_link_libraries(transformation
         INTERFACE
