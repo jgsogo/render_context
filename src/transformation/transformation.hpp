@@ -117,6 +117,7 @@ namespace math::xy::types {
     class Transformation : public _impl::BaseTransformation<symbolOrigin, symbolTarget, T> {
     public:
         using OriginUnits = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::OriginUnits;
+        using TargetUnits = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::TargetUnits;
         using _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::set;
         using Translation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Translation;
         using Rotation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Rotation;
@@ -162,6 +163,12 @@ namespace math::xy::types {
                 typename TT>
         friend Transformation<OriginT, FinalT, TT> operator*(const Transformation<TargetT, FinalT, TT> &lhs, const Transformation<OriginT, TargetT, TT> &rhs);
 
+        template<const char *OriginT,
+                const char *TargetT,
+                const char *FinalT,
+                typename TT>
+        friend Transformation<OriginT, FinalT, TT> operator/(const Transformation<TargetT, FinalT, TT> &lhs, const Transformation<TargetT, OriginT, TT> &rhs);
+
     protected:
         Scale _scale = Scale{Magnum::Math::IdentityInit};
     };
@@ -202,6 +209,24 @@ namespace math::xy::types {
             typename T>
     Transformation<Origin, Final, T> operator*(const Transformation<Target, Final, T> &lhs, const Transformation<Origin, Target, T> &rhs) {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
+        typename Transformation<Origin, Final, T>::Translation translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
+        typename Transformation<Origin, Final, T>::Rotation rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
+        auto scaleFactor = mResult.uniformScaling();
+        if constexpr(std::is_same_v<math::types::NamedUnitT<T, Origin>, math::types::NamedUnitT<T, Final>>) {
+            assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
+            return Transformation<Origin, Final, T>{translate, rotation};
+        } else {
+            auto scale = ::math::types::RatioT<Origin, Final, T>{math::types::NamedUnitT<T, Origin>{1}, math::types::NamedUnitT<T, Final>{scaleFactor}};
+            return Transformation<Origin, Final, T>{translate, scale, rotation};
+        }
+    }
+
+    template<const char *Origin,
+            const char *Target,
+            const char *Final,
+            typename T>
+    Transformation<Origin, Final, T> operator/(const Transformation<Target, Final, T> &lhs, const Transformation<Target, Origin, T> &rhs) {
+        Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation.inverted();
         typename Transformation<Origin, Final, T>::Translation translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
         typename Transformation<Origin, Final, T>::Rotation rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
         auto scaleFactor = mResult.uniformScaling();
