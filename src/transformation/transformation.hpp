@@ -25,8 +25,6 @@ namespace math::xy::types {
 
             BaseTransformation() = default;
 
-            BaseTransformation(const Translation &t, const Rotation &r) : _translation(t), _rotation(r) {}
-
             Magnum::Math::Vector2<TargetUnits> transformPoint(const Magnum::Math::Vector2<OriginUnits> &in) const {
                 auto translatetyped = Magnum::Math::Vector2<T>{in};
                 return Magnum::Math::Vector2<TargetUnits>{_transformation.transformPoint(translatetyped)};
@@ -70,27 +68,6 @@ namespace math::xy::types {
 
             const Rotation &getRotation() const {
                 return _rotation;
-            }
-
-            void translate(const Translation &tr) {
-                this->set(_translation + tr);
-            }
-
-            void rotate(const Rotation &r) {
-                this->set(_rotation + r);
-            }
-
-            void rotate(const Rotation &r,
-                        const Magnum::Math::Vector2<OriginUnits> &rotateCenter) {
-                Magnum::Matrix3 itt =
-                        _transformation *
-                        Magnum::Matrix3::translation(-rotateCenter) *
-                        Magnum::Matrix3::rotation(r) *
-                        Magnum::Matrix3::translation(rotateCenter);
-                auto translate = itt.translation();
-                auto rotate = Magnum::Complex::fromMatrix(itt.rotation()).normalized().angle();
-                auto scale = itt.uniformScaling();
-                this->set(rotate, scale, translate);
             }
 
         protected:
@@ -167,14 +144,6 @@ namespace math::xy::types {
 
         const Scale &getScale() const {
             return _scale;
-        }
-
-        void scale(const Scale &s) {
-
-        }
-
-        void scale(const Scale &s, const Magnum::Math::Vector2<OriginUnits> &scaleCenter_) {
-
         }
 
     protected:
