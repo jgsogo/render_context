@@ -63,9 +63,9 @@ jobs:
         uses: peter-evans/create-pull-request@dcd5fd746d53dd8de555c0f10bca6c35628be47a
         with:
           path: /home/conan/library
-          commit-message: "[${{ github.event.repository.name }}] Update lockfile"
+          commit-message: "Update lockfile"
           branch: "update-lockfile"
-          title: "[${{ github.event.repository.name }}] Update lockfile"
+          title: "[bot] Update lockfile"
           body: "Recreated base lockfile"
           reviewers: "jgsogo"
           token: ${{ steps.generate-token.outputs.token }}
