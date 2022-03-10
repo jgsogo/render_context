@@ -24,6 +24,42 @@ TEST_CASE("test_transformation/test_2d_matrix | Same unit type", "[transformatio
     REQUIRE(os.str() == "[mm > mm] rotate(0), translate(0 mm, 0 mm)");
 }
 
+TEST_CASE("test_transformation/test_2d_matrix | ctor template pack (with scale)", "[transformation/2d]") {
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
+    TransformationType::Translation translation{10_px, 20_px};
+    TransformationType::Scale scale = math::ratio(8_mm, 1_px);
+    TransformationType::Rotation rotation{90.0_deg};
+
+    {
+        auto m1 = TransformationType{translation, scale, rotation};
+        auto m2 = TransformationType{scale, rotation, translation};
+        auto m3 = TransformationType{rotation, translation, scale};
+
+        REQUIRE(m1.getTranslation() == m2.getTranslation());
+        REQUIRE(m1.getTranslation() == m3.getTranslation());
+
+        REQUIRE(m1.getScale() == m2.getScale());
+        REQUIRE(m1.getScale() == m3.getScale());
+
+        REQUIRE(m1.getRotation() == m2.getRotation());
+        REQUIRE(m1.getRotation() == m3.getRotation());
+    }
+}
+
+TEST_CASE("test_transformation/test_2d_matrix | ctor template pack (without scale)", "[transformation/2d]") {
+    using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Milimeters::symbol, float>;
+    TransformationType::Translation translation{10_mm, 20_mm};
+    TransformationType::Rotation rotation{90.0_deg};
+
+    {
+        auto m1 = TransformationType{translation, rotation};
+        auto m2 = TransformationType{rotation, translation};
+
+        REQUIRE(m1.getTranslation() == m2.getTranslation());
+        REQUIRE(m1.getRotation() == m2.getRotation());
+    }
+}
+
 TEST_CASE("test_transformation/test_2d_matrix | Apply transformation with scale", "[transformation/2d]") {
     using TransformationType = math::xy::types::Transformation<math::Milimeters::symbol, math::Pixels::symbol, float>;
     TransformationType::Translation translation{10_px, 20_px};
