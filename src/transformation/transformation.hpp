@@ -72,6 +72,27 @@ namespace math::xy::types {
                 return _rotation;
             }
 
+            void translate(const Translation &tr) {
+                this->set(_translation + tr);
+            }
+
+            void rotate(const Rotation &r) {
+                this->set(_rotation + r);
+            }
+
+            void rotate(const Rotation &r,
+                        const Magnum::Math::Vector2<OriginUnits> &rotateCenter) {
+                Magnum::Matrix3 itt =
+                        _transformation *
+                        Magnum::Matrix3::translation(-rotateCenter) *
+                        Magnum::Matrix3::rotation(r) *
+                        Magnum::Matrix3::translation(rotateCenter);
+                auto translate = itt.translation();
+                auto rotate = Magnum::Complex::fromMatrix(itt.rotation()).normalized().angle();
+                auto scale = itt.uniformScaling();
+                this->set(rotate, scale, translate);
+            }
+
         protected:
             virtual void _update() = 0;
 
@@ -118,6 +139,7 @@ namespace math::xy::types {
     template<const char *symbolOrigin, const char *symbolTarget, typename T, typename Enable = void>
     class Transformation : public _impl::BaseTransformation<symbolOrigin, symbolTarget, T> {
     public:
+        using OriginUnits = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::OriginUnits;
         using _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::set;
         using Translation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Translation;
         using Rotation = typename _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::Rotation;
@@ -125,13 +147,10 @@ namespace math::xy::types {
 
         Transformation() = default;
 
-        Transformation(const Translation &t, const Scale &s, const Rotation &r)
-                : _impl::BaseTransformation<symbolOrigin, symbolTarget, T>(t, r), _scale(s) {
-            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
-                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation, _scale);
+        template<typename Arg1, typename... Args>
+        Transformation(const Arg1 &t, const Args &... args) {
+            this->set(t, args...);
         }
-
-        Transformation(const Translation &t, const Rotation &r, const Scale &s) : Transformation{t, s, r} {}
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
             os << "[" << symbolOrigin << " > " << symbolTarget << "]";
@@ -148,6 +167,14 @@ namespace math::xy::types {
 
         const Scale &getScale() const {
             return _scale;
+        }
+
+        void scale(const Scale &s) {
+
+        }
+
+        void scale(const Scale &s, const Magnum::Math::Vector2<OriginUnits> &scaleCenter_) {
+
         }
 
     protected:
@@ -180,9 +207,9 @@ namespace math::xy::types {
 
         Transformation() = default;
 
-        Transformation(const Translation &t, const Rotation &r) : _impl::BaseTransformation<symbolOrigin, symbolTarget, T>(t, r) {
-            this->update(_impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_translation,
-                         _impl::BaseTransformation<symbolOrigin, symbolTarget, T>::_rotation);
+        template<typename Arg1, typename... Args>
+        Transformation(const Arg1 &t, const Args &... args) {
+            this->set(t, args...);
         }
 
         friend std::ostream &operator<<(std::ostream &os, const Transformation &tf) {
@@ -206,8 +233,8 @@ namespace math::xy::types {
             typename T>
     Transformation<Origin, Final, T> operator*(const Transformation<Target, Final, T> &lhs, const Transformation<Origin, Target, T> &rhs) {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
-        auto translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
-        auto rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
+        typename Transformation<Origin, Final, T>::Translation translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
+        typename Transformation<Origin, Final, T>::Rotation rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
         auto scaleFactor = mResult.uniformScaling();
         if constexpr(std::is_same_v<math::types::NamedUnitT<T, Origin>, math::types::NamedUnitT<T, Final>>) {
             assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
