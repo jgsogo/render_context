@@ -49,11 +49,31 @@ namespace math {
                 return ratio * in;
             }
 
+            friend Magnum::Math::Vector2<NamedUnitT<T, symbolTarget>> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio,
+                                                                                const Magnum::Math::Vector2<NamedUnitT<T, symbolOrigin>> &in) {
+                return Magnum::Math::Vector2<NamedUnitT<T, symbolTarget>>{ratio * in.x(), ratio * in.y()};
+            }
+
+            friend Magnum::Math::Vector2<NamedUnitT<T, symbolTarget>> operator*(const Magnum::Math::Vector2<NamedUnitT<T, symbolOrigin>> &in,
+                                                                                const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
+                return ratio * in;
+            }
+
             friend NamedUnitT<T, symbolOrigin> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio, const NamedUnitT<T, symbolTarget> &in) {
                 return NamedUnitT<T, symbolOrigin>{static_cast<T>(in) / static_cast<T>(ratio)};
             }
 
             friend NamedUnitT<T, symbolOrigin> operator*(const NamedUnitT<T, symbolTarget> &in, const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
+                return ratio * in;
+            }
+
+            friend Magnum::Math::Vector2<NamedUnitT<T, symbolOrigin>> operator*(const RatioT<symbolOrigin, symbolTarget, T> &ratio,
+                                                                                const Magnum::Math::Vector2<NamedUnitT<T, symbolTarget>> &in) {
+                return Magnum::Math::Vector2<NamedUnitT<T, symbolOrigin>>{ratio * in.x(), ratio * in.y()};
+            }
+
+            friend Magnum::Math::Vector2<NamedUnitT<T, symbolOrigin>> operator*(const Magnum::Math::Vector2<NamedUnitT<T, symbolTarget>> &in,
+                                                                                const RatioT<symbolOrigin, symbolTarget, T> &ratio) {
                 return ratio * in;
             }
 
