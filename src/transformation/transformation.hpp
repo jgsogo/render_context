@@ -211,11 +211,11 @@ namespace math::xy::types {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation;
         typename Transformation<Origin, Final, T>::Translation translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
         typename Transformation<Origin, Final, T>::Rotation rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
-        auto scaleFactor = mResult.uniformScaling();
         if constexpr(std::is_same_v<math::types::NamedUnitT<T, Origin>, math::types::NamedUnitT<T, Final>>) {
-            assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
+            // assert(mResult.uniformScalingSquared() == 1.f); // TODO: Use some close-to-zero approach // "Scale factor between same units should be equal to one (no scale)";
             return Transformation<Origin, Final, T>{translate, rotation};
         } else {
+            auto scaleFactor = mResult.uniformScaling();
             auto scale = ::math::types::RatioT<Origin, Final, T>{math::types::NamedUnitT<T, Origin>{1}, math::types::NamedUnitT<T, Final>{scaleFactor}};
             return Transformation<Origin, Final, T>{translate, scale, rotation};
         }
@@ -229,11 +229,11 @@ namespace math::xy::types {
         Magnum::Math::Matrix3<T> mResult = lhs._transformation * rhs._transformation.inverted();
         typename Transformation<Origin, Final, T>::Translation translate = Magnum::Math::Vector2<math::types::NamedUnitT<T, Final>>{mResult.translation()};
         typename Transformation<Origin, Final, T>::Rotation rotation = Magnum::Complex::fromMatrix(mResult.rotation()).normalized().angle();
-        auto scaleFactor = mResult.uniformScaling();
         if constexpr(std::is_same_v<math::types::NamedUnitT<T, Origin>, math::types::NamedUnitT<T, Final>>) {
-            assert(scaleFactor == 1.f); // "Scale factor between same units should be equal to one (no scale)";
+            // assert(mResult.uniformScalingSquared() == 1.f); // TODO: Use some close-to-zero approach // "Scale factor between same units should be equal to one (no scale)";
             return Transformation<Origin, Final, T>{translate, rotation};
         } else {
+            auto scaleFactor = mResult.uniformScaling();
             auto scale = ::math::types::RatioT<Origin, Final, T>{math::types::NamedUnitT<T, Origin>{1}, math::types::NamedUnitT<T, Final>{scaleFactor}};
             return Transformation<Origin, Final, T>{translate, scale, rotation};
         }
