@@ -19,7 +19,7 @@ TEST_CASE("test_render/test_context | Draw functions", "[render/imgui]") {
     TransformationType::Rotation rotation{0_deg};
     auto scale = math::ratio(1_mm, 1_px);
 
-    auto context = render::Context<math::units::mm, mocks::DrawList>{drwList, 0, translation, rotation, scale};
+    auto context = render::Context<math::units::mm, mocks::DrawList>{drwList, translation, rotation, scale};
 
     SECTION("Transform") {
         auto tgtPoint = context.transformPoint({0_mm, 0_mm});
