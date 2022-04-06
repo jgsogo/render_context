@@ -60,17 +60,17 @@ namespace render {
         using Vector2Ori = Magnum::Math::Vector2<OriginUnits>;
         using Vector2Px = Magnum::Math::Vector2<PixelUnits>;
     public:
-        explicit Context(TDrawList &dl, int lodLevel = 0) : _drawList{dl}, _lod{lodLevel} {
+        explicit Context(TDrawList &dl) : _drawList{dl} {
         }
 
         template<typename ...Args>
-        explicit Context(TDrawList &dl, int lodLevel = 0, Args &&... args)
-                : _drawList{dl}, _lod{lodLevel}, _transformation{std::forward<Args>(args)...} {
+        explicit Context(TDrawList &dl, Args &&... args)
+                : _drawList{dl}, _transformation{std::forward<Args>(args)...} {
         }
 
         template<const char *Other>
         Context<Other, TDrawList, PixelsSymbol> operator<<(const math::xy::types::Transformation<Other, Origin, float> &tf) const {
-            Context<Other, TDrawList, PixelsSymbol> ctxt{_drawList, _lod, _transformation * tf};
+            Context<Other, TDrawList, PixelsSymbol> ctxt{_drawList, _transformation * tf};
             return ctxt;
         }
 
@@ -153,7 +153,6 @@ namespace render {
 
     protected:
         TDrawList &_drawList;
-        int _lod = 0;
         math::xy::types::Transformation<Origin, PixelsSymbol, float> _transformation;
     };
 }
